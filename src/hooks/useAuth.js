@@ -20,7 +20,7 @@ export default function useAuth(code) {
 
         setAccessToken(res.data.accessToken);
         setRefreshToken(res.data.refreshToken);
-        setExpiresIn(300);
+        setExpiresIn(1800);
       });
     } else {
       apiRequest
@@ -38,7 +38,7 @@ export default function useAuth(code) {
           });
           setAccessToken(res.data.accessToken);
           setRefreshToken(res.data.refreshToken);
-          setExpiresIn(300);
+          setExpiresIn(1800);
           window.history.pushState({}, null, "/");
           return apiRequest.put("/token", {
             userId: "305",
@@ -63,7 +63,7 @@ export default function useAuth(code) {
         })
         .then((res) => {
           setAccessToken(res.data.accessToken);
-          setExpiresIn(300);
+          setExpiresIn(1800);
           return apiRequest.put("/token", {
             accessToken: res.data.accessToken,
           });
