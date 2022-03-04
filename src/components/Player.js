@@ -52,18 +52,13 @@ export default function Player({ code }) {
     }
   }, [userInfo.playlists]);
 
-
-
-  //! ----------------ESSENTIAL---------------------
-/*   useEffect(() => {
+  useEffect(() => {
     if (code !== "custom") {
       apiRequest.put("/status");
     }
-  }, []); */
+  }, []);
 
-
-  
-  if (userInfo.playlists.length == 0) return <Loader full/>;
+  if (userInfo.playlists.length == 0) return <Loader full />;
 
   return (
     <PlayerContainer>

@@ -14,12 +14,11 @@ import { apiRequest } from "./requests";
 function App() {
   const [code, setCode] = useState(null);
   const { userInfo, dispatch } = useContext(GlobalContext);
-/* 
+
   useEffect(() => {
     apiRequest.get("/status").then((res) => {
       dispatch({ type: "SET_APP_STATUS", payload: res.data.isRunning });
       if (res.data.isRunning === true) {
-
         setCode("custom");
         return;
       } else {
@@ -27,14 +26,7 @@ function App() {
         return;
       }
     });
-  }, []); */
-
-/*  */
-  //! to delete
-  useEffect(() => {
-    setCode(new URLSearchParams(window.location.search).get("code"));
-
-  }, [])
+  }, []);
 
   return (
     <Router>
