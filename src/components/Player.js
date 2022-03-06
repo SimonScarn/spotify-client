@@ -48,6 +48,7 @@ export default function Player({ code }) {
 
   useEffect(() => {
     if (userInfo.playlists.length > 0) {
+      console.log('shuld navigate to HOME')
       navigate("/");
     }
   }, [userInfo.playlists]);
