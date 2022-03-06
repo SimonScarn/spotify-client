@@ -32,6 +32,7 @@ export default function Player({ code }) {
 
   useEffect(() => {
     if (!accessToken) {
+      console.log('no accces token!')
       return;
     }
     spotifyAPI.getMe().then((data) => {
@@ -59,6 +60,10 @@ export default function Player({ code }) {
     }
   }, []);
 
+    useEffect(() => {
+      console.log('player code: ', code);
+    }, [code])
+  
   if (userInfo.playlists.length == 0) return <Loader full />;
 
   return (
