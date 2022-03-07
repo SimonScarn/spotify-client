@@ -25,27 +25,21 @@ export default function Player({ code }) {
   const { userInfo, dispatch } = useContext(GlobalContext);
 
   useEffect(() => {
+    console.log('player token --> ', accessToken);
     if (!accessToken) return;
-    spotifyAPI.setAccessToken(accessToken);
+    spotifyAPI.setAccessToken(accessToken);   
     dispatch({ type: "SET_TOKEN", payload: accessToken });
-  }, [accessToken]);
-
-  useEffect(() => {
-    if (!accessToken) {
-      console.log('no accces token!')
-      return;
-    }
     spotifyAPI.getMe().then((data) => {
       dispatch({ type: "SET_USER", payload: data });
     });
     spotifyAPI.getMySavedAlbums({ limit: 10 }).then((data) => {
       dispatch({ type: "SET_USER_ALBUMS", payload: data.items });
     });
-
     getUserPlaylists().then((data) => {
       dispatch({ type: "SET_USER_PLAYLISTS", payload: data });
     });
   }, [accessToken]);
+
 
   useEffect(() => {
     if (userInfo.playlists.length > 0) {
