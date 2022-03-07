@@ -21,11 +21,9 @@ function App() {
       if (res.data.isRunning === true) {
         console.log('setting custom')
         setCode("custom");
-        return;
       } else {
              console.log('setting from url')
         setCode(new URLSearchParams(window.location.search).get("code"));
-        return;
       }
     });
   }, []);
