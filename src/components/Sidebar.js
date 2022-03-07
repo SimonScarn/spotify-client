@@ -29,6 +29,7 @@ export default function Sidebar() {
   const [playlists, setPlaylists] = useState([]);
 
   useEffect(() => {
+    console.log(userInfo.playlists)
     setPlaylists([userInfo.playlists]);
     setSearchedPlaylists([userInfo.playlists]);
   }, [userInfo.playlists]);
