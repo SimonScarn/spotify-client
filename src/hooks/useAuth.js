@@ -17,7 +17,7 @@ export default function useAuth(code) {
           type: "SET_REFRESH_TOKEN",
           payload: res.data.refreshToken,
         });
-
+        console.log('custom : ', res)
         setAccessToken(res.data.accessToken);
         setRefreshToken(res.data.refreshToken);
         setExpiresIn(1500);
@@ -41,7 +41,7 @@ export default function useAuth(code) {
           setExpiresIn(1500);
           window.history.pushState({}, null, "/");
           return apiRequest.put("/token", {
-            userId: "305",
+            userId: "2n2k3kuhhqila73nh56m6ijv3",
             code: code,
             accessToken: res.data.accessToken,
             refreshToken: res.data.refreshToken,
