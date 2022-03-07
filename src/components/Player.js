@@ -25,25 +25,27 @@ export default function Player({ code }) {
   const { userInfo, dispatch } = useContext(GlobalContext);
 
   useEffect(() => {
-    console.log('player token --> ', accessToken);
     if (!accessToken) return;
-    spotifyAPI.setAccessToken(accessToken);   
-    dispatch({ type: "SET_TOKEN", payload: accessToken });
-    spotifyAPI.getMe().then((data) => {
-      dispatch({ type: "SET_USER", payload: data });
-    });
-    spotifyAPI.getMySavedAlbums({ limit: 10 }).then((data) => {
-      dispatch({ type: "SET_USER_ALBUMS", payload: data.items });
-    });
-    getUserPlaylists().then((data) => {
-      dispatch({ type: "SET_USER_PLAYLISTS", payload: data });
-    });
+    console.log('abpout to get user ', accessToken)
+    spotifyAPI
+      .setAccessToken(accessToken)
+      .then(() => {
+        dispatch({ type: "SET_TOKEN", payload: accessToken });
+        return spotifyAPI.getMe();
+      })
+      .then((data) => {
+        console.log('getMe --> ', data)
+        dispatch({ type: "SET_USER", payload: data });
+        return spotifyAPI.getUserPlaylists();
+      })
+      .then((data) => {
+        dispatch({ type: "SET_USER_PLAYLISTS", payload: data });
+      });
   }, [accessToken]);
 
-
   useEffect(() => {
+    console.log("playlist usera ", userInfo.playlists);
     if (userInfo.playlists.length > 0) {
-      console.log('shuld navigate to HOME')
       navigate("/");
     }
   }, [userInfo.playlists]);
@@ -54,10 +56,6 @@ export default function Player({ code }) {
     }
   }, []);
 
-    useEffect(() => {
-      console.log('player code: ', code);
-    }, [code])
-  
   if (userInfo.playlists.length == 0) return <Loader full />;
 
   return (
