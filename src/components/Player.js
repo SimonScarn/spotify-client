@@ -27,13 +27,7 @@ export default function Player({ code }) {
     if (!accessToken) return;
     spotifyAPI.setAccessToken(accessToken);
     dispatch({ type: "SET_TOKEN", payload: accessToken });
-  }, [accessToken]);
-
-  useEffect(() => {
-    if (!accessToken) {
-      return;
-    }
-    spotifyAPI.getMe().then((data) => {
+      spotifyAPI.getMe().then((data) => {
       dispatch({ type: "SET_USER", payload: data });
     });
     spotifyAPI.getMySavedAlbums({ limit: 10 }).then((data) => {
@@ -45,6 +39,7 @@ export default function Player({ code }) {
       dispatch({ type: "SET_USER_PLAYLISTS", payload: data });
     });
   }, [accessToken]);
+
 
   useEffect(() => {
     if (code !== "custom") {
