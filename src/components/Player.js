@@ -26,15 +26,17 @@ export default function Player({ code }) {
 
   useEffect(() => {
     if (!accessToken) return;
-    console.log('abpout to get user ', accessToken)
+    spotifyAPI.setAccessToken(accessToken);
+    dispatch({ type: "SET_TOKEN", payload: accessToken });
+  }, [accessToken]);
+
+  useEffect(() => {
+    if (!accessToken) return;
+    console.log("abpout to get user ", accessToken);
     spotifyAPI
-      .setAccessToken(accessToken)
-      .then(() => {
-        dispatch({ type: "SET_TOKEN", payload: accessToken });
-        return spotifyAPI.getMe();
-      })
+      .getMe()
       .then((data) => {
-        console.log('getMe --> ', data)
+        console.log("getMe --> ", data);
         dispatch({ type: "SET_USER", payload: data });
         return spotifyAPI.getUserPlaylists();
       })
