@@ -1,120 +1,121 @@
-import {
-  Container,
-  Toolbar,
-  SearchSection,
-  Input,
-  SidebarLink,
-  PlaylistContainer,
-  PlaylistItem,
-} from "../styles/Sidebar.styled.js";
+import "../styles/Sidebar.css";
 import { useContext, useState, useEffect } from "react";
 import { GlobalContext } from "../GlobalContext";
+import { NavLink, Link } from "react-router-dom";
 import SidebarOption from "./SidebarOption";
-import Home from "@mui/icons-material/Home";
-import Search from "@mui/icons-material/Search";
-import LibraryMusic from "@mui/icons-material/LibraryMusic";
-import AddBox from "@mui/icons-material/AddBox";
-import Favorite from "@mui/icons-material/Favorite";
-import EqualizerIcon from "@mui/icons-material/Equalizer";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import AddIcon from "@mui/icons-material/Add";
-import CachedIcon from "@mui/icons-material/Cached";
-import { IconButton, Tooltip } from "@mui/material";
-import { getUserPlaylists } from "../utils/ApiCalls.js";
+import Home from "@material-ui/icons/Home";
+import Search from "@material-ui/icons/Search";
+import LibraryMusic from "@material-ui/icons/LibraryMusic";
+import AddBox from "@material-ui/icons/AddBox";
+import Favorite from "@material-ui/icons/Favorite";
+import EqualizerIcon from "@material-ui/icons/Equalizer";
+import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+import AddIcon from "@material-ui/icons/Add";
 
 export default function Sidebar() {
   const { userInfo, dispatch } = useContext(GlobalContext);
   const [query, setQuery] = useState("");
   const [searchedPlaylists, setSearchedPlaylists] = useState([]);
-  const [playlists, setPlaylists] = useState([]);
+  const [filterQuery, setFilterQuery] = useState("");
+  const [sortOption, setSortOption] = useState("ascending");
 
   useEffect(() => {
-    setPlaylists([userInfo.playlists]);
-    setSearchedPlaylists([userInfo.playlists]);
+    setSearchedPlaylists(userInfo.playlists);
   }, [userInfo.playlists]);
 
   useEffect(() => {
-    if (query === "") {
-      setSearchedPlaylists([userInfo.playlists]);
+    if (query == "") {
+      setSearchedPlaylists(userInfo.playlists);
     } else {
-      const items = [userInfo.playlists].filter((e) =>
+      const items = [...userInfo.playlists].filter((e) =>
         e.name.toLowerCase().includes(query)
-      
-        );
+      );
       setSearchedPlaylists(items);
     }
   }, [query]);
 
-  function addSong(e) {
-    e.preventDefault();
+
+
+  function addSong() {
     console.log("coming soon");
   }
 
-  function togglePlaylist(e, id) {
-    e.preventDefault();
+  function togglePlaylist(id) {
     dispatch({ type: "SET_PLAYER_TRACK", payload: [`spotify:playlist:${id}`] });
   }
 
-  function refetchPlaylists() {
-    setSearchedPlaylists(playlists);
-    setQuery("");
-  }
-
   return (
-    <Container>
-      <SidebarLink to="/" exact={true}>
+    <div className="sidebar">
+      <NavLink
+        to="/"
+        exact={true}
+        activeClassName="sidebar__navLink--selected"
+        className="sidebar__navLink"
+      >
         <SidebarOption title="Home" Icon={Home} />
-      </SidebarLink>
-      <SidebarLink to="/search">
+      </NavLink>
+      <NavLink
+        to="/search"
+        activeClassName="sidebar__navLink--selected"
+        className="sidebar__navLink"
+      >
         <SidebarOption title="Search" Icon={Search} />
-      </SidebarLink>
-      <SidebarLink to="/collection">
+      </NavLink>
+      <NavLink
+        to="/collection"
+        activeClassName="sidebar__navLink--selected"
+        className="sidebar__navLink"
+      >
         {" "}
         <SidebarOption title="Library" Icon={LibraryMusic} />
-      </SidebarLink>
+      </NavLink>
       <br />
-      <SidebarLink to="/404" style={{ pointerEvents: "none" }}>
+      <NavLink to="/" className="sidebar__navLink">
         <SidebarOption title="Create new playlist" Icon={AddBox} />
-      </SidebarLink>
-      <SidebarLink to="/collection/tracks">
+      </NavLink>
+      <NavLink to="/collection/tracks" className="sidebar__navLink">
         <SidebarOption title="Liked songs" Icon={Favorite} />
-      </SidebarLink>
-      <SidebarLink to="/collection/episodes">
+      </NavLink>
+      <NavLink to="/collection/episodes" className="sidebar__navLink">
         <SidebarOption title="My episodes" Icon={EqualizerIcon} />
-      </SidebarLink>
+      </NavLink>
+      <hr />
 
-      <SearchSection>
-        <Tooltip title="restore default playlists order" placement="top-end">
-          <IconButton style={{ color: "white" }} onClick={refetchPlaylists}>
-            <CachedIcon />
-          </IconButton>
-        </Tooltip>
-
-        <Input
+      <div className="sidebar__search">
+        <input
+          className="sidebar__input"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           type="text"
           placeholder="Search for a playlist..."
-        ></Input>
-      </SearchSection>
-      <PlaylistContainer>
+        ></input>
+      </div>
+      <div className="sidebar__playlistsContainer">
         {searchedPlaylists &&
           searchedPlaylists.map((playlist) => {
             return (
-              <SidebarLink to={`/playlist/${playlist.id}`}>
-                <PlaylistItem key={playlist.id}>
-                  <p>{playlist.name}</p>
-                  <Toolbar>
-                    <AddIcon />
+              <Link
+                to={`/playlist/${playlist.id}`}
+                style={{ cursor: "default" }}
+                className="sidebar__navLink"
+              >
+                <div
+                  className="sidebar__playlist"
+                  key={playlist.id}
+                >
+                  <p style={{ margin: "0", padding: "0" }}>{playlist.name}</p>
+                  <div>
+                    <AddIcon className="icon__sidebar" onClick={addSong} />
                     <PlayArrowIcon
-                      onClick={(e) => togglePlaylist(e, playlist.id)}
+                      className="icon__sidebar"
+                      onClick={() => togglePlaylist(playlist.id)}
                     />
-                  </Toolbar>
-                </PlaylistItem>
-              </SidebarLink>
+                  </div>
+                </div>
+              </Link>
             );
           })}
-      </PlaylistContainer>
-    </Container>
+      </div>
+    </div>
   );
 }
