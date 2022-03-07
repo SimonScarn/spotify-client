@@ -20,8 +20,7 @@ import useAuth from "../hooks/useAuth";
 import { apiRequest } from "./../requests";
 
 export default function Player({ code }) {
-  const navigate = useNavigate();
-  const accessToken = useAuth(code);
+   const accessToken = useAuth(code);
   const { userInfo, dispatch } = useContext(GlobalContext);
 
   useEffect(() => {
@@ -31,24 +30,27 @@ export default function Player({ code }) {
   }, [accessToken]);
 
   useEffect(() => {
-    if (!accessToken) return;
-    console.log("abpout to get user ", accessToken);
+    if (!accessToken) {
+      return;
+    }
     spotifyAPI.getMe().then((data) => {
-      console.log("getMe --> ", data);
       dispatch({ type: "SET_USER", payload: data });
     });
-    spotifyAPI.getUserPlaylists().then((data) => {
+    spotifyAPI.getMySavedAlbums({ limit: 10 }).then((data) => {
+      dispatch({ type: "SET_USER_ALBUMS", payload: data.items });
+    });
+
+    getUserPlaylists().then((data) => {
       dispatch({ type: "SET_USER_PLAYLISTS", payload: data });
     });
   }, [accessToken]);
-
- 
 
   useEffect(() => {
     if (code !== "custom") {
       apiRequest.put("/status");
     }
   }, []);
+
 
   if (userInfo.playlists.length == 0) return <Loader full />;
 
