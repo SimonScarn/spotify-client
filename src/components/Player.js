@@ -41,6 +41,7 @@ export default function Player({ code }) {
     });
 
     getUserPlaylists().then((data) => {
+       console.log('getpolaylists ', data);
       dispatch({ type: "SET_USER_PLAYLISTS", payload: data });
     });
   }, [accessToken]);
