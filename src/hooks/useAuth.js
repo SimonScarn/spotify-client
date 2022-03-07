@@ -10,6 +10,7 @@ export default function useAuth(code) {
   const [expiresIn, setExpiresIn] = useState(null);
 
   useEffect(() => {
+    console.log('CODE efekt===> ', code)
     if (code === "custom") {
       apiRequest.get("/token").then((res) => {
         dispatch({ type: "SET_ACCESS_TOKEN", payload: res.data.accessToken });
