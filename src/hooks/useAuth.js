@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { GlobalContext } from "./../GlobalContext";
 import { apiRequest } from "../requests";
+import { spotifyAPI } from "../spotify";
 
 export default function useAuth(code) {
   const { userInfo, dispatch } = useContext(GlobalContext);
@@ -76,6 +77,11 @@ export default function useAuth(code) {
 
     return () => clearInterval(interval);
   }, [refreshToken, expiresIn]);
+  
+  useEffect(() => {
+    if (!accessToken) return;
+    spotifyAPI.setAccessToken(accessToken);
+  }, [accessToken, spotifyAPI]);
 
   return accessToken;
 }
