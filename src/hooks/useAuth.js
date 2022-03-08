@@ -81,7 +81,7 @@ export default function useAuth(code) {
   useEffect(() => {
     if (!accessToken) return;
     spotifyAPI.setAccessToken(accessToken);
-  }, [accessToken, spotifyAPI]);
+  }, [accessToken, refreshToken]);
 
   return accessToken;
 }
