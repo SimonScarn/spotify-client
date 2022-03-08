@@ -20,6 +20,7 @@ import useAuth from "../hooks/useAuth";
 import { apiRequest } from "./../requests";
 
 export default function Player({ code }) {
+   const navigate = useNavigate();
    const accessToken = useAuth(code);
   const { userInfo, dispatch } = useContext(GlobalContext);
 
