@@ -44,7 +44,13 @@ export default function Player({ code }) {
     }
   }, []);
 
-
+   useEffect(() => {
+      if (userInfo.playlists) {
+      navigate('/');
+     }
+   }, [userInfo.playlists])
+   
+   
   if (userInfo.playlists.length == 0) return <Loader full />;
 
   return (
