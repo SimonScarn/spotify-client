@@ -25,7 +25,6 @@ export default function Player({ code }) {
 
   useEffect(() => {
     if (!accessToken) return;
-    spotifyAPI.setAccessToken(accessToken);
     dispatch({ type: "SET_TOKEN", payload: accessToken });
     spotifyAPI.getMe().then((data) => {
        console.log('getme ', data);
