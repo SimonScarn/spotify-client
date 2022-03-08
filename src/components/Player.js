@@ -27,12 +27,10 @@ export default function Player({ code }) {
     if (!accessToken) return;
     dispatch({ type: "SET_TOKEN", payload: accessToken });
     spotifyAPI.getMe().then((data) => {
-       console.log('getme ', data);
       dispatch({ type: "SET_USER", payload: data });
     });
     
     getUserPlaylists().then((data) => {
-       console.log('getpolaylists ', data);
       dispatch({ type: "SET_USER_PLAYLISTS", payload: data });
     });
   }, [accessToken, spotifyAPI]);
