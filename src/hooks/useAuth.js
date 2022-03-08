@@ -18,9 +18,10 @@ export default function useAuth(code) {
           type: "SET_REFRESH_TOKEN",
           payload: res.data.refreshToken,
         });
+        console.log('/token GET ', res.data)
         setAccessToken(res.data.accessToken);
         setRefreshToken(res.data.refreshToken);
-        setExpiresIn(1500);
+        setExpiresIn(1000);
       });
     } else {
       apiRequest
@@ -38,7 +39,7 @@ export default function useAuth(code) {
           });
           setAccessToken(res.data.accessToken);
           setRefreshToken(res.data.refreshToken);
-          setExpiresIn(1500);
+          setExpiresIn(1000);
           window.history.pushState({}, null, "/");
           return apiRequest.put("/token", {
             userId: "2n2k3kuhhqila73nh56m6ijv3",
@@ -62,8 +63,10 @@ export default function useAuth(code) {
           refreshToken: refreshToken,
         })
         .then((res) => {
+        console.log('/refresh POST ', res.data)
+
           setAccessToken(res.data.accessToken);
-          setExpiresIn(1500);
+          setExpiresIn(1000);
           return apiRequest.put("/token", {
             accessToken: res.data.accessToken,
           });
