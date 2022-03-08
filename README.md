@@ -1,7 +1,7 @@
 This is a custom React web app in development mode. It uses Spotify Web API endpoints to fetch metadata about music artists, albums, tracks, shows, playlists and user's information from the Spotify Data Catalogue. This web app is not responsive at the moment.
 
 
-If you are viewing the DEMO VERSION, feel free to add/delete tracks & library items to test app functionalities.
+If you are viewing the DEMO VERSION, feel free to add/delete tracks, library items, etc. to test app functionalities.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Available features:
  - search tracks, albums, artists, playlists, shows
