@@ -19,10 +19,8 @@ function App() {
     apiRequest.get("/status").then((res) => {
       dispatch({ type: "SET_APP_STATUS", payload: res.data.isRunning });
       if (res.data.isRunning === true) {
-        console.log('setting custom')
         setCode("custom");
       } else {
-             console.log('setting from url')
         setCode(new URLSearchParams(window.location.search).get("code"));
       }
     });
