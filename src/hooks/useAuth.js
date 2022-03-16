@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { GlobalContext } from "./../GlobalContext";
 import { apiRequest } from "../requests";
+import { spotifyAPI } from "../spotify";
 
 export default function useAuth(code) {
   const { userInfo, dispatch } = useContext(GlobalContext);
@@ -17,10 +18,10 @@ export default function useAuth(code) {
           type: "SET_REFRESH_TOKEN",
           payload: res.data.refreshToken,
         });
-
+        console.log('/token GET ', res.data)
         setAccessToken(res.data.accessToken);
         setRefreshToken(res.data.refreshToken);
-        setExpiresIn(300);
+        setExpiresIn(1000);
       });
     } else {
       apiRequest
@@ -38,10 +39,10 @@ export default function useAuth(code) {
           });
           setAccessToken(res.data.accessToken);
           setRefreshToken(res.data.refreshToken);
-          setExpiresIn(300);
+          setExpiresIn(1000);
           window.history.pushState({}, null, "/");
           return apiRequest.put("/token", {
-            userId: "305",
+            userId: "2n2k3kuhhqila73nh56m6ijv3",
             code: code,
             accessToken: res.data.accessToken,
             refreshToken: res.data.refreshToken,
@@ -62,8 +63,10 @@ export default function useAuth(code) {
           refreshToken: refreshToken,
         })
         .then((res) => {
+        console.log('/refresh POST ', res.data)
+F
           setAccessToken(res.data.accessToken);
-          setExpiresIn(300);
+          setExpiresIn(1000);
           return apiRequest.put("/token", {
             accessToken: res.data.accessToken,
           });
@@ -75,6 +78,10 @@ export default function useAuth(code) {
 
     return () => clearInterval(interval);
   }, [refreshToken, expiresIn]);
+  
+  useEffect(() => {
+    if (!accessToken) return;
+  }, [accessToken, refreshToken]);
 
   return accessToken;
 }

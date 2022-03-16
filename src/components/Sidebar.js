@@ -29,15 +29,15 @@ export default function Sidebar() {
   const [playlists, setPlaylists] = useState([]);
 
   useEffect(() => {
-    setPlaylists([...userInfo.playlists]);
-    setSearchedPlaylists([...userInfo.playlists]);
+    setPlaylists([userInfo.playlists]);
+    setSearchedPlaylists([userInfo.playlists]);
   }, [userInfo.playlists]);
 
   useEffect(() => {
     if (query === "") {
-      setSearchedPlaylists([...userInfo.playlists]);
+      setSearchedPlaylists([userInfo.playlists]);
     } else {
-      const items = [...userInfo.playlists].filter((e) =>
+      const items = [userInfo.playlists].filter((e) =>
         e.name.toLowerCase().includes(query)
       
         );

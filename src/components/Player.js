@@ -31,22 +31,19 @@ export default function Player({ code }) {
   }, [accessToken]);
 
   useEffect(() => {
-    if (!accessToken) {
-      return;
-    }
+    if (!accessToken) return;
+    console.log("abpout to get user ", accessToken);
     spotifyAPI.getMe().then((data) => {
+      console.log("getMe --> ", data);
       dispatch({ type: "SET_USER", payload: data });
     });
-    spotifyAPI.getMySavedAlbums({ limit: 10 }).then((data) => {
-      dispatch({ type: "SET_USER_ALBUMS", payload: data.items });
-    });
-
-    getUserPlaylists().then((data) => {
+    spotifyAPI.getUserPlaylists().then((data) => {
       dispatch({ type: "SET_USER_PLAYLISTS", payload: data });
     });
   }, [accessToken]);
 
   useEffect(() => {
+    console.log("playlist usera ", userInfo.playlists);
     if (userInfo.playlists.length > 0) {
       navigate("/");
     }
