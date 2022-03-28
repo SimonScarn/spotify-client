@@ -16,9 +16,10 @@ const Image = styled.img`
   flex: 0.3;
   height: 90%;
   margin-right: 2rem;
-  margin-top: auto;
+  margin-top: 80px;
   margin-bottom: auto;
   object-fit: contain;
+  border-radius: 5px;
 `;
 
 const Header = styled.div`
@@ -27,9 +28,12 @@ const Header = styled.div`
   position: relative;
   z-index: 1;
   height: 40vh;
-  margin-top: 60px;
   padding: 20px 40px;
   border-bottom: 1px solid whitesmoke;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  background-image: linear-gradient(rgb(197, 165, 66), rgb(225, 194, 92));
+  box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
 
   &:before {
     content: "";
@@ -54,8 +58,9 @@ const Header = styled.div`
 const AlbumDetails = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 40px;
   gap: 20px;
+  margin-top: 110px !important;
+  color: black;
 
   div {
     display: flex;
@@ -84,6 +89,8 @@ const TracksContainer = styled.div`
 const ArtistLink = styled(Link)`
   color: inherit;
   text-decoration: none;
+  font-weight: 700;
+  font-size: 19px;
 
   &:hover {
     color: ${(props) => props.theme.colors.colorSecondary};
@@ -96,8 +103,9 @@ const Title = styled.h1`
   padding: 0;
   font-size: 2.1rem;
   font-weight: 900;
+  letter-spacing: .7px;
   font-style: oblique;
-  color: whitesmoke;
+  color: black;
 `;
 
 const Label = styled.p`

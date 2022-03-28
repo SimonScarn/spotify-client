@@ -94,7 +94,7 @@ function Artist() {
 
   return (
     <Wrapper>
-      <TopHeader />
+      <TopHeader/>
       {loading || (popularTracks.length === 0)? (
         <Loader />
       ) : (

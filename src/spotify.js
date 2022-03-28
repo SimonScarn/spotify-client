@@ -4,7 +4,7 @@ const AUTH_URL = "https://accounts.spotify.com/authorize";
 const localhost = "http://localhost:3000/callback"
 const netlify = "https://spotify-customized-demo.netlify.app/auth/external/callback"
 /* const url = "https://spotify-customized.netlify.app/auth/external/callback"; */
-const redirect_URI = netlify;
+const redirect_URI = localhost;
 
 
 const clientID = "5aed99f573aa4efdb7e16beaaa9bf9bb";
@@ -53,7 +53,7 @@ export const getUrlToken = () => {
     }, {});
 };
 
-export const loginURL = `${AUTH_URL}?client_id=${clientID}&response_type=code&redirect_uri=${encodeURIComponent(redirect_URI)}&scope=${scopes.join(
+export const loginURL = `${AUTH_URL}?client_id=${clientID}&response_type=token&redirect_uri=${encodeURIComponent(redirect_URI)}&scope=${scopes.join(
   "%20"
 )}&show_dialog=true`;
 

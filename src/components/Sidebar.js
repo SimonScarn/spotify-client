@@ -19,6 +19,7 @@ import EqualizerIcon from "@mui/icons-material/Equalizer";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import AddIcon from "@mui/icons-material/Add";
 import CachedIcon from "@mui/icons-material/Cached";
+import WorkspacesIcon from '@mui/icons-material/Workspaces';
 import { IconButton, Tooltip } from "@mui/material";
 import { getUserPlaylists } from "../utils/ApiCalls.js";
 
@@ -29,21 +30,22 @@ export default function Sidebar() {
   const [playlists, setPlaylists] = useState([]);
 
   useEffect(() => {
-    setPlaylists([userInfo.playlists]);
-    setSearchedPlaylists([userInfo.playlists]);
+    setPlaylists([userInfo.playlists][0]);
+    setSearchedPlaylists([userInfo.playlists][0]);
   }, [userInfo.playlists]);
 
   useEffect(() => {
     if (query === "") {
-      setSearchedPlaylists([userInfo.playlists]);
+      setSearchedPlaylists([userInfo.playlists][0]);
     } else {
-      const items = [userInfo.playlists].filter((e) =>
+      const items = [userInfo.playlists][0].filter((e) =>
         e.name.toLowerCase().includes(query)
       
         );
       setSearchedPlaylists(items);
     }
   }, [query]);
+
 
   function addSong(e) {
     e.preventDefault();
@@ -79,8 +81,8 @@ export default function Sidebar() {
       <SidebarLink to="/collection/tracks">
         <SidebarOption title="Liked songs" Icon={Favorite} />
       </SidebarLink>
-      <SidebarLink to="/collection/episodes">
-        <SidebarOption title="My episodes" Icon={EqualizerIcon} />
+      <SidebarLink to="/groupings" style={{color: 'limegreen', fontWeight: '900', wordBreak: '9px'}}>
+        <SidebarOption title="Groupings" Icon={WorkspacesIcon}/>
       </SidebarLink>
 
       <SearchSection>
@@ -98,7 +100,7 @@ export default function Sidebar() {
         ></Input>
       </SearchSection>
       <PlaylistContainer>
-        {searchedPlaylists &&
+       {searchedPlaylists &&
           searchedPlaylists.map((playlist) => {
             return (
               <SidebarLink to={`/playlist/${playlist.id}`}>
@@ -113,7 +115,7 @@ export default function Sidebar() {
                 </PlaylistItem>
               </SidebarLink>
             );
-          })}
+          })} 
       </PlaylistContainer>
     </Container>
   );

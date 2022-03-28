@@ -11,7 +11,7 @@ import { GlobalContext } from "../GlobalContext";
 import { spotifyAPI } from "../spotify";
 import { getArtists, getDescription, getReleaseDate } from "../utils/ApiData";
 import PlayCircleIcon from "@mui/icons-material/PlayArrow";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import ClearIcon from '@mui/icons-material/Clear';
 import defaultImgSrc from "../assets/defaultimgsrc.png";
 
 function SearchResult({ item, view }) {
@@ -25,6 +25,22 @@ function SearchResult({ item, view }) {
   const prevPath = useLocation().pathname;
   const { pathname } = useLocation();
 
+  function checkStorage(item) {
+
+    let currentItems =
+      JSON.parse(localStorage.getItem("recentlySearched")) || [];
+
+
+    const isStored = currentItems.some(e => e.id === item.id);
+
+    if (!isStored) {
+      localStorage.setItem(
+        "recentlySearched",
+        JSON.stringify([...currentItems, item])
+      );
+    }
+  }
+
   const openSearchResult = (e, item) => {
     e.preventDefault();
     e.stopPropagation();
@@ -32,6 +48,8 @@ function SearchResult({ item, view }) {
     if (href !== null && href.includes("artist")) {
       return;
     }
+
+    checkStorage(item);
 
     switch (item.type) {
       case "album":
@@ -75,12 +93,22 @@ function SearchResult({ item, view }) {
   function playItem(e) {
     e.preventDefault();
     e.stopPropagation();
-    console.log('play/pause coming soon')
+    console.log("play/pause coming soon");
     dispatch({ type: "SET_CURRENT_TRACK", payload: [item.uri] });
   }
 
-  function deleteItem(e) {
-    e.stopPropagation();
+  function deleteItem(e, id, view) {
+    e.stopPropagation();  
+
+    if (view === "search") {
+      let recentlySearchedItems = JSON.parse(localStorage.getItem("recentlySearched"));
+      recentlySearchedItems = recentlySearchedItems.filter(e => e.id !== id);
+      localStorage.setItem("recentlySearched", JSON.stringify(recentlySearchedItems));
+
+      //! force rerender
+      return;
+    }
+    
     let promise;
     switch (item.type) {
       case "album":
@@ -120,7 +148,7 @@ function SearchResult({ item, view }) {
         <Image
           alt="item image"
           src={
-            (!isLoading || item?.images[0]?.url)
+            !isLoading || item?.images[0]?.url
               ? item?.images[0]?.url
               : defaultImgSrc
           }
@@ -139,11 +167,12 @@ function SearchResult({ item, view }) {
         ) : (
           <Title>{item?.artists && getArtists(item.artists)}</Title>
         )}
-        {view == "collection" && (
-          <DeleteBtn onClick={deleteItem}>
-            <HighlightOffIcon />
+        {(view == "collection" || view ==  "search") && (
+          <DeleteBtn onClick={(e) => deleteItem(e, item.id, view)}>
+            <ClearIcon style={{color: 'red', background: 'pink', borderRadius: "100px",  }}/>
           </DeleteBtn>
         )}
+
 
         <PlayBtn onClick={playItem}>
           <PlayCircleIcon onClick={playItem} />

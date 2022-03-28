@@ -78,7 +78,7 @@ const SidebarLink = styled(NavLink)`
   &.active {
     color: ${props => props.theme.colors.colorSecondary};
     font-weight: 900;
-}
+  }
 `;
 
 const PlaylistContainer = styled.div`

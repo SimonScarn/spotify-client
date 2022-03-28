@@ -9,6 +9,7 @@ import Show from "./Show";
 import Artist from "./Artist";
 import Search from "./Search";
 import Discography from "./Discography";
+import Groupings from "./Groupings";
 import Library from "./Library";
 import { Routes, Route, HashRouter, useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
@@ -21,7 +22,8 @@ import { apiRequest } from "./../requests";
 
 export default function Player({ code }) {
   const navigate = useNavigate();
-  const accessToken = useAuth(code);
+/*   const accessToken = useAuth(code); */
+const [accessToken, setAccessToken] = useState(null);
   const { userInfo, dispatch } = useContext(GlobalContext);
 
   useEffect(() => {
@@ -32,28 +34,29 @@ export default function Player({ code }) {
 
   useEffect(() => {
     if (!accessToken) return;
-    console.log("abpout to get user ", accessToken);
     spotifyAPI.getMe().then((data) => {
-      console.log("getMe --> ", data);
       dispatch({ type: "SET_USER", payload: data });
     });
-    spotifyAPI.getUserPlaylists().then((data) => {
+    getUserPlaylists().then((data) => {
       dispatch({ type: "SET_USER_PLAYLISTS", payload: data });
     });
   }, [accessToken]);
 
   useEffect(() => {
-    console.log("playlist usera ", userInfo.playlists);
-    if (userInfo.playlists.length > 0) {
+    if (userInfo.playlists.total > 0) {
       navigate("/");
     }
   }, [userInfo.playlists]);
 
-  useEffect(() => {
+/*   useEffect(() => {
     if (code !== "custom") {
       apiRequest.put("/status");
     }
-  }, []);
+  }, []); */
+
+  useEffect(() => {
+    setAccessToken(code)
+  }, [code])
 
   if (userInfo.playlists.length == 0) return <Loader full />;
 
@@ -76,6 +79,7 @@ export default function Player({ code }) {
         <Route path="/artist/:id/related" element={<Discography />} />
         <Route path="/collection" element={<Library />} />
         <Route path="/collection/:category" element={<Library />} />
+        <Route path="/groupings" element={<Groupings />} />
       </Routes>
       <Footer />
     </PlayerContainer>

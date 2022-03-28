@@ -12,7 +12,13 @@ const Categories = styled.div`
   padding-left: 30px;
 `;
 
-export { SearchResults, Categories };
+const RecentlySearched = styled.div`
+  padding-left: 30px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid lightgrey;
+`
+
+export { SearchResults, Categories, RecentlySearched };
 
 /* 
   

@@ -16,7 +16,8 @@ function App() {
   const { userInfo, dispatch } = useContext(GlobalContext);
 
   useEffect(() => {
-    apiRequest.get("/status").then((res) => {
+ /*    setCode(new URLSearchParams(window.location.search).get("token")); */
+    /* apiRequest.get("/status").then((res) => {
       dispatch({ type: "SET_APP_STATUS", payload: res.data.isRunning });
       if (res.data.isRunning === true) {
         setCode("custom");
@@ -25,7 +26,11 @@ function App() {
         setCode(new URLSearchParams(window.location.search).get("code"));
         return;
       }
-    });
+    }); */
+    const hash = getUrlToken();
+    window.location.hash = "";
+    let _token = hash.access_token;
+    setCode(_token)
   }, []);
 
   return (

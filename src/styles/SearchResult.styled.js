@@ -82,11 +82,15 @@ const Title = styled.p`
 const DeleteBtn = styled(IconButton)`
   && {
     position: absolute;
-    top: -5px;
-    right: -5px;
-    width: 30px;
-    height: 30px;
+    top: -1px;
+    right: -1px;
+    width: 23px;
+    height: 23px;
+    transform: scale(0.7);
     cursor: default;
+    &:hover {
+      transform:  scale(1.1);
+    }
   }
 `;
 

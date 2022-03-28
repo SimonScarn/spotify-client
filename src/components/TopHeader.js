@@ -15,13 +15,14 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import defaultImgSrc from "../assets/defaultimgsrc.png";
 
 
-function TopHeader({ query, changeQuery }) {
+function TopHeader({ query, changeQuery, color }) {
   const navigate = useNavigate();
   const { state } = useLocation();
   const { userInfo, dispatch } = useContext(GlobalContext);
   const [prevPath, setPrevPath] = useState(null);
 
   useEffect(() => {
+    console.log(state)
     if (state?.prevPath) {
       setPrevPath(state.prevPath);
     }
@@ -33,6 +34,10 @@ function TopHeader({ query, changeQuery }) {
     } else {
       navigate(-1);
     }
+  }
+
+  function toggleNavDropdown() {
+    console.log('HEMPAJER')
   }
 
   return (
@@ -66,7 +71,7 @@ function TopHeader({ query, changeQuery }) {
           {userInfo?.user?.["display_name"][0]}
         </Avatar>
         <h4>{userInfo?.user?.["display_name"]}</h4>
-        <ArrowDropDownIcon />
+        <ArrowDropDownIcon onClick={toggleNavDropdown}/>
       </UserInfo>
     </Container>
   );

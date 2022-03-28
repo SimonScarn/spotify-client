@@ -5,5 +5,5 @@ const BASE_URL = "https://spoti--server.herokuapp.com";
 /* const url = "https://spotify-customized.herokuapp.com" */
 
 export const apiRequest = axios.create({
-  baseURL: BASE_URL,
+  baseURL: localhost,
 });

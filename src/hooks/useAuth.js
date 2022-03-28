@@ -41,12 +41,12 @@ export default function useAuth(code) {
           setRefreshToken(res.data.refreshToken);
           setExpiresIn(1000);
           window.history.pushState({}, null, "/");
-          return apiRequest.put("/token", {
+          /* return apiRequest.put("/token", {
             userId: "2n2k3kuhhqila73nh56m6ijv3",
             code: code,
             accessToken: res.data.accessToken,
             refreshToken: res.data.refreshToken,
-          });
+          }); */
         })
         .catch((err) => {
           console.error(err);
@@ -64,12 +64,11 @@ export default function useAuth(code) {
         })
         .then((res) => {
         console.log('/refresh POST ', res.data)
-F
           setAccessToken(res.data.accessToken);
           setExpiresIn(1000);
-          return apiRequest.put("/token", {
+          /* return apiRequest.put("/token", {
             accessToken: res.data.accessToken,
-          });
+          }); */
         })
         .catch(() => {
           window.location = "/";

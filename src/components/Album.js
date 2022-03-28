@@ -79,7 +79,7 @@ function Album() {
 
   return (
     <Wrapper>
-      <TopHeader />
+      <TopHeader color={"red"}/>
       {!album ? (
         <Loader />
       ) : (
@@ -87,8 +87,8 @@ function Album() {
           <Header>
             <Image alt="album cover" src={album?.images[1].url} />
             <AlbumDetails>
-              <p>{album?.["album_type"]}</p>
               <Title>{album?.name}</Title>
+              <p>{album?.["album_type"]}</p>
               <div>
                 {album?.artists.map((artist) => (
                   <ArtistLink to={`/artist/${artist.id}`}>
@@ -114,7 +114,7 @@ function Album() {
               </div>
             </AlbumDetails>
           </Header>
-          <Toolbar>
+          <Toolbar translate={true}>
             <PlayBtn onClick={playAlbum} size="large">
               {isPlaying ? (
                 <PauseIcon fontSize="large" />

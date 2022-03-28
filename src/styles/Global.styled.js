@@ -48,10 +48,11 @@ const Row = styled.div`
 
 const Grid = styled.div`
   display: grid;
-  place-content: center;
+ /*  place-content: center; */
   grid-template-columns: repeat(auto-fill, 190px);
   gap: 10px;
-  padding: 20px 10px;
+  padding: 20px 10px; 
+
 `;
 
 const Toolbar = styled.div`
@@ -60,6 +61,8 @@ const Toolbar = styled.div`
   gap: 15px;
   height: 60px;
   padding-left: 20px;
+  margin-top: ${props => props.translate && '60px'};
+  border-top: ${props => props.translate && '1px solid whitesmoke'};
 `;
 
 const ArtistsContainer = styled.div`

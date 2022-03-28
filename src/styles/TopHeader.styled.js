@@ -2,6 +2,8 @@ import styled from "styled-components";
 import { IconButton } from "@mui/material";
 import { NavLink } from "react-router-dom";
 
+
+
 const Container = styled.div`
   position: sticky;
   top: 0;
@@ -9,11 +11,14 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 7vh;
+  height: 50px;
   padding: 10px 20px;
   padding-bottom: 0.5em;
-  background-color: #6b0f1a;
-  background-image: linear-gradient(315deg, #6b0f1a 0%, #b91372 74%);
+  /* background-color: ${color => color} !important; */
+  background-image: linear-gradient(rgb(197, 165, 66), rgb(225, 194, 92));
+
+/*   background-image: ${props => !props.color && "linear-gradient(315deg, #6b0f1a 0%, #b91372 74%)"}; */
+  
 `;
 
 const NavBtn = styled(IconButton)`
@@ -35,18 +40,39 @@ const UserInfo = styled.div`
   display: flex;
   align-items: center;
   gap: 5px;
+  position: relative;
   height: 90%;
   margin-right: 1.5rem;
   padding: 5px;
   color: whitesmoke;
   border-radius: 25px;
   transition: all 0.3s ease-in-out;
+  outline: 2px solid ${(props) => props.theme.colors.colorSecondary};
+
 
   &:hover {
     cursor: pointer;
     outline: 2px solid ${(props) => props.theme.colors.colorSecondary};
     color: white;
     transition: all 0.3s ease-in-out;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50px;
+    width: 100%;
+    height: 1px;
+    background: red;
+    border-radius: 5px;
+  }
+
+  &:hover::after {
+    transform: scaleY(200);
+    background: gold;
+    
+
   }
 `;
 
