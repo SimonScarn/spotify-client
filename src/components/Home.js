@@ -1,10 +1,11 @@
-import { Wrapper, Section, Row, ContentGrid } from "../styles/Global.styled.js";
+import { Wrapper, Section, ContentGrid } from "../styles/Global.styled.js";
 import { useState, useEffect, useContext } from "react";
 import { spotifyAPI } from "../spotify";
 import { GlobalContext } from "../GlobalContext";
 import SearchResult from "./SearchResult";
 import TopHeader from "./TopHeader";
 import ItemRow from "./ItemRow";
+import Row from "./Row";
 import Loader from "./Loader.js";
 
 function Home() {
@@ -73,53 +74,27 @@ function Home() {
         <>
           <Section>
             <h2>Top Artists</h2>
-            <Row>
-              {topArtists?.map((artist) => {
-                return (
-                  <SearchResult key={artist.id} item={artist} view={"home"} />
-                );
-              })}
-            </Row>
+            <Row items={topArtists} view="home" />
           </Section>
           <Section>
             <h2>Recently played</h2>
-            <Row double>
-              {recentlyPlayed?.map((item) => {
-                return <ItemRow key={item.id} item={item} />;
-              })}
-            </Row>
+            <Row double items={recentlyPlayed} />
           </Section>
           <Section>
             <h2>Your top tracks</h2>
-            <Row double>
-              {topTracks?.map((item) => {
-                return <ItemRow key={item.id} item={item} />;
-              })}
-            </Row>
+            <Row double items={topTracks} />
           </Section>
           <Section>
             <h2>New releases</h2>
             <h3>New singles</h3>
-            <Row double>
-              {newReleases?.singles.map((item) => {
-                return <ItemRow key={item.id} item={item} />;
-              })}
-            </Row>
+            <Row double items={newReleases.singles} />
             <br />
             <h3>New albums</h3>
-            <Row>
-              {newReleases?.albums.map((item) => {
-                return <SearchResult key={item.id} item={item} view={"home"} />;
-              })}
-            </Row>
+            <Row items={newReleases.albums} view="home" />
           </Section>
           <Section>
             <h2>Featured playlists</h2>
-            <Row>
-              {featuredPlaylists?.map((item) => {
-                return <SearchResult key={item.id} item={item} view={"home"} />;
-              })}
-            </Row>
+            <Row items={featuredPlaylists} view="home" />
           </Section>
         </>
       )}

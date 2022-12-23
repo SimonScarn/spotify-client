@@ -1,4 +1,4 @@
-import { Grid, Row, Wrapper } from "../styles/Global.styled.js";
+import { Grid, Wrapper, Section } from "../styles/Global.styled.js";
 import {
   SearchResults,
   Categories,
@@ -21,6 +21,7 @@ import { filterAlbums } from "../utils/ApiData";
 import TopHeader from "./TopHeader";
 import SearchResult from "./SearchResult";
 import ItemRow from "./ItemRow";
+import Row from "./Row";
 import Loader from "./Loader";
 
 function Search() {
@@ -42,9 +43,14 @@ function Search() {
   //?-----------------------------
 
   useEffect(() => {
-    setRecentlySearched(
-      JSON.parse(localStorage.getItem("recentlySearched")) || []
-    );
+    try {
+      setRecentlySearched(
+        JSON.parse(localStorage.getItem("recentlySearched")).reverse() || []
+      );
+    } catch(err) {
+      
+    }
+ 
     if (pathname) {
       //? more than 1 word
       if (pathname.includes("%20")) {
@@ -56,7 +62,7 @@ function Search() {
     spotifyAPI.getCategories().then((data) => {
       setCategories(data.categories.items);
     });
-  }, []);
+  }, [recentlySearched.length]);
 
   useEffect(() => {
     if (query === undefined) {
@@ -78,14 +84,15 @@ function Search() {
   function fetchSearchResults() {
     if (query === "") return;
 
-    getTracks(query).then((data) => setTracks(data));
-    getAlbums(query).then((data) => setAlbums(filterAlbums(data)));
-    getArtists(query).then((data) => setArtists(data));
-    getPlaylists(query).then((data) => {
-      setPlaylists(data);
+
+    Promise.all([getTracks(query), getAlbums(query), getArtists(query), getPlaylists(query), getShows(query), getEpisodes(query)]).then(values => {
+      setTracks(values[0]);
+      setAlbums(filterAlbums(values[1]));
+      setArtists(values[2]);
+      setPlaylists(values[3]);
+      setShows(values[4]);
+      setEpisodes(values[5]);
     });
-    getShows(query).then((data) => setShows(data));
-    getEpisodes(query).then((data) => setEpisodes(data));
   }
 
   function searchItem(query) {
@@ -95,93 +102,51 @@ function Search() {
   return (
     <Wrapper>
       <TopHeader query={query} changeQuery={(query) => setQuery(query)} />
-      {query ? (
+      {(query ) ? (
         <SearchResults>
           {/*-----------tracks-----------*/}
           {tracks.length > 0 && (
-            <>
-              <div style={{ display: "flex" }}>
-                <h2>Tracks</h2>
-              </div>
-              <Row double>
-                {tracks?.map((track) => {
-                  return <ItemRow key={track.id} item={track} />;
-                })}
-              </Row>
-            </>
+            <Section>
+              <h2>Tracks</h2>
+              <Row items={tracks} double />
+            </Section>
           )}
 
           {/*-----------albums-----------*/}
           {albums.length > 0 && (
-            <>
-              <div
-                style={{
-                  display: "flex",
-                }}
-              >
-                <h2>Albums</h2>
-              </div>
-              <Row>
-                {albums?.map((album) => {
-                  return <SearchResult key={album.id} item={album} />;
-                })}
-              </Row>
-            </>
+            <Section>
+              <h2>Albums</h2>
+              <Row items={albums} />
+            </Section>
           )}
           {/*-----------artists-----------*/}
           {artists.length > 0 && (
-            <>
-              <div style={{ display: "flex" }}>
-                <h2>Artists</h2>
-              </div>
-
-              <Row>
-                {artists?.map((artist) => {
-                  return <SearchResult key={artist.id} item={artist} />;
-                })}
-              </Row>
-            </>
+            <Section>
+              <h2>Artists</h2>
+              <Row items={artists} />
+            </Section>
           )}
           {/*-----------playlists-----------*/}
           {playlists.length > 0 && (
-            <>
-              <div style={{ display: "flex" }}>
-                <h2>Playlists</h2>
-              </div>
-
-              <Row>
-                {playlists?.map((playlist) => {
-                  return <SearchResult key={playlist.id} item={playlist} />;
-                })}
-              </Row>
-            </>
+            <Section>
+              <h2>Playlists</h2>
+              <Row items={playlists} />
+            </Section>
           )}
           {/*-----------shows-----------*/}
           {shows.length > 0 && (
-            <>
-              <div style={{ display: "flex" }}>
-                <h2>Shows</h2>
-              </div>
-
-              <Row>
-                {shows?.map((show) => {
-                  return <SearchResult key={show.id} item={show} />;
-                })}
-                //
-              </Row>
-            </>
+            <Section>
+              <h2>Shows</h2>
+              <Row items={shows} />
+            </Section>
           )}
         </SearchResults>
       ) : (
         <>
-          <RecentlySearched>
+          <Section>
             <h2>Recently searched</h2>
-            <Grid>
-              {recentlySearched.map((e) => (
-                <SearchResult key={e.id} item={e} view="search" />
-              ))}
-            </Grid>
-          </RecentlySearched>
+            <Row items={recentlySearched} view="home"/>
+          </Section>
           <Categories>
             <h2>Categories</h2>
             <p>categories & recommendations coming soon</p>

@@ -1,26 +1,55 @@
 import { Grid, Wrapper } from "../styles/Global.styled";
 import { Header, Content, Group } from "../styles/Groupings.styled";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { spotifyAPI } from "../spotify";
+import SearchResult from "./SearchResult";
 
 export default function Groupings() {
+  const [groups, setGroups] = useState([]);
+
+  useEffect(() => {
+    spotifyAPI.getMySavedAlbums({ limit: 16 }).then((data) => {
+      let items = data.items.map((e) => e.album);
+      console.log('hujass', items)
+      setGroups(createGroups(items));
+    });
+  }, []);
+
+  function createGroups(groups) {
+    let newArr = [];
+    for (let i = 0; i <= 15; i += 4) {
+      newArr.push({ items: groups.slice(i, i + 4) });
+    }
+    return newArr;
+  }
+
+
+/*   useEffect(() => {
+    console.log(groups)
+  }, [groups]) */
+
   return (
     <Wrapper>
       <Header>
-        <h1>Create your own taste <strong>(grid playground)</strong></h1>
+        <h1>
+          Create your own taste <strong>(grid playground)</strong>
+        </h1>
       </Header>
 
       <Content>
-        <Group>
-          <h2>Logic</h2>
-          <h2>Roset</h2>
-          <h2>Tha Carter</h2>
-        </Group>
-        <Group>
-          <h2>Jay-Zi</h2>
-          <h2>Tedas</h2>
-          <h2>G-Eazy</h2>
-        </Group>
+       {groups?.map((group) => {
+
+        return (
+            <Group>
+              {group.items.map((album) => {
+              return  <SearchResult key={album.id} item={album} view={"groupings"} events/>;
+              })}
+            </Group>
+          );  
+        
+        })} 
       </Content>
+      
     </Wrapper>
   );
 }

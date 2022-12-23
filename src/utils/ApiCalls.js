@@ -48,7 +48,6 @@ export async function getUserPlaylists() {
       playlists = [...playlists, ...add.items];
     }
   }
-  console.log('getUserPlaylistsT :', playlists)
   return playlists;
 }
 

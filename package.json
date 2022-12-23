@@ -11,6 +11,7 @@
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.21.4",
+    "framer-motion": "^4.1.17",
     "genius-lyrics-api": "^3.2.0",
     "moment": "^2.29.1",
     "prop-types": "^15.7.2",

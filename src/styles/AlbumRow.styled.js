@@ -22,7 +22,7 @@ const Container = styled.div`
   padding: 5px 20px 5px 30px;
   color: whitesmoke;
   /*   background-color: #000000; */
-  background-image: linear-gradient(315deg, #000000 0%, #414141 74%);
+ /*  background-image: linear-gradient(315deg, #000000 0%, #414141 74%); */
 
   &:hover {
     cursor: pointer;

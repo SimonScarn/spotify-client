@@ -15,6 +15,7 @@ import SearchResult from "./SearchResult";
 import Loader from "./Loader.js";
 import { IconButton } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { spaceLongNum } from "../utils/ApiData.js";
 
 function Artist() {
   const { pathname } = useLocation();
@@ -34,7 +35,7 @@ function Artist() {
 
   useEffect(() => {
     setArtistID(pathname.split("/")[2]);
-    document.querySelector(Wrapper).scrollTo(0, 0);
+/*     document.querySelector(Wrapper).scrollTo(0, 0); */
     spotifyAPI
       .getArtist(artistID)
       .then((data) => {
@@ -92,6 +93,8 @@ function Artist() {
     setHideTracks((prev) => !prev);
   }
 
+ 
+
   return (
     <Wrapper>
       <TopHeader/>
@@ -107,7 +110,7 @@ function Artist() {
                   return <span>#{e}</span>;
                 })}
               </div>
-              <p>{artist?.followers.total} followers</p>
+              <p>{spaceLongNum(artist?.followers.total)} followers</p>
             </ArtistInfo>
           </Header>
           <Toolbar>

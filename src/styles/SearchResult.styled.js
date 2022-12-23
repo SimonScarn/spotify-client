@@ -1,6 +1,18 @@
 import styled from "styled-components";
 import { IconButton } from "@mui/material";
-import { PlayBtn } from "./Global.styled.js";
+import { PlayBtn, AddLibraryBtn } from "./Global.styled.js";
+
+const ItemToolbar = styled.div`
+ /*  height: 30px;
+  width: 30px;
+  background: red;
+  position: absolute;
+  border-radius: 100px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-40%); */
+`
+
 
 const Container = styled.div`
   flex: 1 1 150px;
@@ -13,11 +25,24 @@ const Container = styled.div`
   cursor: pointer;
   object-fit: contain;
   border-radius: 5px;
+  pointer-events: ${(props) => props.events ? 'all' : 'none'};
+
+/*   &:hover ${ItemToolbar} {
+    visibility: visible;
+    transform: scale(4);
+    transform-origin: center;
+    opacity: 1;
+  } */
 
   &:hover ${PlayBtn} {
     visibility: visible;
     transform: translateY(-40%);
     opacity: 1;
+  }
+
+  &:hover ${AddLibraryBtn} {
+    visibility: visible;
+    transform: translateX(-50%);
   }
 
   &:before {
@@ -64,10 +89,16 @@ const Container = styled.div`
   }
 `;
 
-const Image = styled.img`
-  height: 150px;
-  object-fit: ${(props) => (props.cover ? "cover" : "contain")};
-  margin: 0;
+const ImageContainer = styled.div`
+  position: relative;
+
+  img {
+    height: 150px;
+    width: 100%;
+    object-fit: ${(props) => (props.cover ? "cover" : "contain")};
+    margin: 0;
+    pointer-events: none;
+  }
 `;
 
 const Title = styled.p`
@@ -94,7 +125,7 @@ const DeleteBtn = styled(IconButton)`
   }
 `;
 
-export { Container, Image, Title, DeleteBtn };
+export { Container, ImageContainer, Title, DeleteBtn, ItemToolbar };
 
 /* 
   

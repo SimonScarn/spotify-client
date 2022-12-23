@@ -29,7 +29,7 @@ const [accessToken, setAccessToken] = useState(null);
   useEffect(() => {
     if (!accessToken) return;
     spotifyAPI.setAccessToken(accessToken);
-    dispatch({ type: "SET_TOKEN", payload: accessToken });
+    dispatch({ type: "SET_ACCESS_TOKEN", payload: accessToken });
   }, [accessToken]);
 
   useEffect(() => {

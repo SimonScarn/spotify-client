@@ -15,11 +15,10 @@ const Container = styled.div`
   padding: 0.5em;
   transition: 0.3s ease-in-out;
   border-radius: 5px;
+  pointer-events: ${(props) => props.events ? 'all' : 'none'};
+  cursor: pointer;
 
-  &:hover {
-    cursor: pointer;
-    opacity: 0.9;
-  }
+
 
   &:hover ${PlayBtn} {
     visibility: visible;
@@ -51,6 +50,7 @@ const Image = styled.img`
   object-fit: cover;
   margin: auto 10px auto 0;
   max-width: 90px;
+  pointer-events: none;  
 `;
 
 const ItemLink = styled(Link)`

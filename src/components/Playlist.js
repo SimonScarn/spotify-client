@@ -8,8 +8,9 @@ import {
   Tracks,
   ToolbarMini,
 } from "../styles/Playlist.styled";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useReducer, useContext } from "react";
 import { useLocation } from "react-router-dom";
+import { GlobalContext } from "./../GlobalContext";
 import { spotifyAPI } from "../spotify";
 import {
   addToPlaylist,
@@ -17,6 +18,7 @@ import {
   getRecommendations,
   getPlaylistData,
 } from "../utils/playlist";
+import { playItem } from "../utils/main.js";
 import TopHeader from "./TopHeader";
 import SongRow from "./SongRow";
 import Loader from "./Loader.js";
@@ -24,8 +26,12 @@ import defaultImgSrc from "../assets/defaultimgsrc.png";
 import { IconButton } from "@mui/material";
 import PlayCircleFilledIcon from "@mui/icons-material/PlayCircleFilled";
 
+
+
 function Playlist() {
   const location = useLocation();
+
+  const { userInfo, dispatch } = useContext(GlobalContext);
   const [isLoading, setIsLoading] = useState(true);
   const [playlist, setPlaylist] = useState({});
   const [tracks, setTracks] = useState([]);
@@ -47,21 +53,36 @@ function Playlist() {
     const playlistID = location.pathname.split("/")[2];
     setTimeout(() => {
       getPlaylistData(playlistID).then((data) => {
+        console.log(data)
         setPlaylist(data.playlist);
         setIsLoading(false);
         const newState = data.tracks.map((e, idx) => {
           return { ...e, id: idx + 1 };
         });
+        console.log(`%c GETTIN NEW TRACKS for ${data.playlist.name}`, 'color: red');
         setTracks(newState);
       });
     }, 1500);
   }, [location, count]);
+/* 
+  useEffect(() => {
+    //only setplaylist NOT teacks
+    const playlistID = location.pathname.split("/")[2];
+    console.log('sdfsdf', playlistID)
+    getPlaylistData(playlistID).then((data) => {
+      console.log('count is chaning', data.playlist)
+      setPlaylist(data.playlist);
+    });
+  }, [count]) */
 
   useEffect(() => {
+    if (Object.keys(playlist).length === 0) return;
+    console.log('test1`')
     if (tracks && playlist) {
+      console.log('test2')
       refreshRecommendations(tracks);
     }
-  }, [location.pathname, playlist.id]);
+  }, [location]);
 
   function refreshRecommendations(tracks) {
     getRecommendations(tracks).then((data) => {
@@ -80,8 +101,6 @@ function Playlist() {
 /*   useEffect(() => {
     checkFavorites(tracks);
   }, [tracks]);  */
-
-
 
   return (
     <Container>
@@ -107,12 +126,13 @@ function Playlist() {
                 <p>
                   <span>{playlist?.tracks.total}</span>{" "}
                   {playlist?.tracks.total > 1 ? "tracks" : "track"}
+{/*                   <span>{playlist?.}</span> */}
                 </p>
               </Details>
             </div>
           </Header>
           <Toolbar>
-            <IconButton size="large" style={{ color: "white" }}>
+            <IconButton onClick={() => dispatch({type: "SET_CURRENT_TRACK", payload: playItem(playlist)})} size="large" style={{ color: "white" }}>
               <PlayCircleFilledIcon fontSize="large" />
             </IconButton>
           </Toolbar>
@@ -139,7 +159,7 @@ function Playlist() {
             Recommended:{" "}
           </h3>
           <>
-            {recommendedTracks?.map((item) => {
+            {recommendedTracks?.slice(0, 10).map((item) => {
               return (
                 <SongRow
                   key={item.id}

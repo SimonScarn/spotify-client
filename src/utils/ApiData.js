@@ -16,6 +16,11 @@ const filterAlbums = (data) => {
   });
 };
 
+const deleteDuplicates = (items) => {
+  console.log(items)
+
+}
+
 const getSongArtists = (artists) => {
   let str = "";
   artists.map((e) => {
@@ -52,8 +57,9 @@ const getAlbumDuration = (tracks) => {
 };
 
 const getReleaseDate = (date) => {
-  let releaseDate = moment(date, "YYYY-MM-DD").format("DD.MM YYYY");
-  return releaseDate;
+  let month = moment(date.split('-')[1], 'MM').format('MMMM');
+  let releaseDate = moment(date, "YYYY-MM-DD").format(`D YYYY`).split(' ');
+  return `${releaseDate[0]} ${month} ${releaseDate[1]}`
 };
 
 const getArtists = (artists) => {
@@ -61,6 +67,11 @@ const getArtists = (artists) => {
     return <ColorLink to={`/artist/${artist.id}`}>{artist.name}</ColorLink>;
   });
 };
+
+
+const spaceLongNum = (x) => {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+}
 
 const getDescription = (item, view) => {
   switch (item.type) {
@@ -87,10 +98,12 @@ const getDescription = (item, view) => {
 
 export {
   filterAlbums,
+  deleteDuplicates,
   getSongArtists,
   getItemDuration,
   getAlbumDuration,
   getReleaseDate,
+  spaceLongNum,
   getDescription,
   getArtists,
 };

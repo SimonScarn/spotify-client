@@ -1,9 +1,10 @@
-import { PlayBtn } from "../styles/Global.styled.js";
+import { PlayBtn, AddLibraryBtn } from "../styles/Global.styled.js";
 import {
   Container,
-  Image,
+  ImageContainer,
   Title,
   DeleteBtn,
+  ItemToolbar,
 } from "../styles/SearchResult.styled.js";
 import { useEffect, useContext, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -11,12 +12,14 @@ import { GlobalContext } from "../GlobalContext";
 import { spotifyAPI } from "../spotify";
 import { getArtists, getDescription, getReleaseDate } from "../utils/ApiData";
 import PlayCircleIcon from "@mui/icons-material/PlayArrow";
-import ClearIcon from '@mui/icons-material/Clear';
+import AddIcon from '@mui/icons-material/Add';
+import ClearIcon from "@mui/icons-material/Clear";
 import defaultImgSrc from "../assets/defaultimgsrc.png";
 
-function SearchResult({ item, view }) {
+function SearchResult({ item, view, events }) {
   const [remove, setRemove] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isDragging, setIsDragging] = useState(false);
   const {
     userInfo: { savedAlbums },
     dispatch,
@@ -26,12 +29,10 @@ function SearchResult({ item, view }) {
   const { pathname } = useLocation();
 
   function checkStorage(item) {
-
     let currentItems =
       JSON.parse(localStorage.getItem("recentlySearched")) || [];
 
-
-    const isStored = currentItems.some(e => e.id === item.id);
+    const isStored = currentItems.some((e) => e.id === item.id);
 
     if (!isStored) {
       localStorage.setItem(
@@ -90,25 +91,34 @@ function SearchResult({ item, view }) {
     }
   };
 
+  function addToLibrary(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
   function playItem(e) {
     e.preventDefault();
     e.stopPropagation();
-    console.log("play/pause coming soon");
     dispatch({ type: "SET_CURRENT_TRACK", payload: [item.uri] });
   }
 
   function deleteItem(e, id, view) {
-    e.stopPropagation();  
+    e.stopPropagation();
 
     if (view === "search") {
-      let recentlySearchedItems = JSON.parse(localStorage.getItem("recentlySearched"));
-      recentlySearchedItems = recentlySearchedItems.filter(e => e.id !== id);
-      localStorage.setItem("recentlySearched", JSON.stringify(recentlySearchedItems));
+      let recentlySearchedItems = JSON.parse(
+        localStorage.getItem("recentlySearched")
+      );
+      recentlySearchedItems = recentlySearchedItems.filter((e) => e.id !== id);
+      localStorage.setItem(
+        "recentlySearched",
+        JSON.stringify(recentlySearchedItems)
+      );
 
       //! force rerender
       return;
     }
-    
+
     let promise;
     switch (item.type) {
       case "album":
@@ -129,35 +139,36 @@ function SearchResult({ item, view }) {
     });
   }
 
-  useEffect(() => {}, [item]);
+  useEffect(() => {
+    if (view === "groupings") {
+      setIsLoading(false);
+    }
+  }, []);
 
   if (remove) return null;
 
   return (
-    <Container onClick={(e) => openSearchResult(e, item)}>
+    <Container
+      onClick={(e) => openSearchResult(e, item)}
+      events={events}
+    >
       <div>
-        {isLoading && (
-          <Image
-            src={defaultImgSrc}
+        <ImageContainer>
+          <img
+            alt="item image"
+            src={
+              !isLoading || item?.images[0]?.url
+                ? item?.images[0]?.url
+                : defaultImgSrc
+            }
             style={{
+              display: isLoading ? "none" : "inline",
               borderRadius: item.type == "artist" && "50%",
             }}
-            cover
+            onLoad={() => setIsLoading(false)}
           />
-        )}
-        <Image
-          alt="item image"
-          src={
-            !isLoading || item?.images[0]?.url
-              ? item?.images[0]?.url
-              : defaultImgSrc
-          }
-          style={{
-            display: isLoading ? "none" : "inline",
-            borderRadius: item.type == "artist" && "50%",
-          }}
-          onLoad={() => setIsLoading(false)}
-        />
+             <ItemToolbar/>
+        </ImageContainer>
         <h2>{item.name}</h2>
         {item.publisher && <h3>{item.publisher}</h3>}
         {item.owner && <h3>{item.owner["display_name"]}</h3>}
@@ -167,16 +178,26 @@ function SearchResult({ item, view }) {
         ) : (
           <Title>{item?.artists && getArtists(item.artists)}</Title>
         )}
-        {(view == "collection" || view ==  "search") && (
+        {(view == "collection" || view == "search") && (
           <DeleteBtn onClick={(e) => deleteItem(e, item.id, view)}>
-            <ClearIcon style={{color: 'red', background: 'pink', borderRadius: "100px",  }}/>
+            <ClearIcon
+              style={{
+                color: "red",
+                background: "pink",
+                borderRadius: "100px",
+              }}
+            />
           </DeleteBtn>
         )}
-
 
         <PlayBtn onClick={playItem}>
           <PlayCircleIcon onClick={playItem} />
         </PlayBtn>
+        <div className="testinho">
+        <AddLibraryBtn onClick={addToLibrary}>
+          <AddIcon />
+        </AddLibraryBtn>
+        </div>
       </div>
     </Container>
   );

@@ -97,77 +97,79 @@ function SongRow({
   if (isAdded || (view == "tracks" && !favorite) || remove) return null;
 
   return (
-    <Container>
-      <Player>
-        <Index>{id}</Index>
-        <PlayIcon>
-          <PlayArrowIcon onClick={playSong} />
-        </PlayIcon>
-      </Player>
-      <Tooltip
-        title={`${song.album.name} (${song?.album?.["release_date"].slice(
-          0,
-          4
-        )})`}
-        placement="top-start"
-      >
-        <ItemImg src={song.album.images[0].url} />
-      </Tooltip>
-      <Details>
-        <div>
-          <h3>{song.name}</h3>
-          <ArtistsContainer>{getArtists(song.artists)}</ArtistsContainer>
-        </div>
-        <Album>
-          <ItemLink to={`/album/${song.album.id}`} white>
-            {song.album.name}
-          </ItemLink>
-        </Album>
-      </Details>
-      {/*-----------------------------PATHNAME = TRACKS-----------------------------*/}
-      {recommended ? (
-        <Toolbar>
-          <AddToPlaylistBtn onClick={handleAddToPlaylist}>ADD</AddToPlaylistBtn>
-        </Toolbar>
-      ) : (
-        <>
+      <Container>
+        <Player>
+          <Index>{id}</Index>
+          <PlayIcon>
+            <PlayArrowIcon onClick={playSong} />
+          </PlayIcon>
+        </Player>
+        <Tooltip
+          title={`${song.album.name} (${song?.album?.["release_date"].slice(
+            0,
+            4
+          )})`}
+          placement="top-start"
+        >
+          <ItemImg src={song.album.images[0].url} />
+        </Tooltip>
+        <Details>
+          <div>
+            <h3>{song.name}</h3>
+            <ArtistsContainer>{getArtists(song.artists)}</ArtistsContainer>
+          </div>
+          <Album>
+            <ItemLink to={`/album/${song.album.id}`} white>
+              {song.album.name}
+            </ItemLink>
+          </Album>
+        </Details>
+        {/*-----------------------------PATHNAME = TRACKS-----------------------------*/}
+        {recommended ? (
           <Toolbar>
-            {pathname.split("/")[2] ===
-              "tracks" /*  || pathname.split("/")[1] === "playlist" */ && (
-              <CheckBox
-                value={checkboxState}
-                onChange={() => checkboxOnChange(song.id)}
-                color="error"
-              />
-            )}
-            <Modal
-              open={open}
-              handleClose={hidePlaylistModal}
-              songID={song.uri}
-            />
-            <PlaylistShowBtn onClick={showPlaylistModal}>
-              <LibraryAddIcon />
-            </PlaylistShowBtn>
-            <FavoriteBtn favorite={favorite}>
-              {favorite ? (
-                <FavoriteIcon onClick={removeFavorite} />
-              ) : (
-                <FavoriteBorderIcon />
-              )}
-            </FavoriteBtn>
-            {/*-----------------------------PATHNAME = PLAYLIST-------------------------------*/}
-            {pathname.split("/")[1] === "playlist" && !recommended && (
-              <RemoveBtn onClick={handleRemoveFromPlaylist} size="small">
-                <ClearIcon />
-              </RemoveBtn>
-            )}
+            <AddToPlaylistBtn onClick={handleAddToPlaylist}>
+              ADD
+            </AddToPlaylistBtn>
           </Toolbar>
-          <span style={{ display: "grid", placeContent: "center" }}>
-            {getItemDuration(song["duration_ms"])}
-          </span>
-        </>
-      )}
-    </Container>
+        ) : (
+          <>
+            <Toolbar>
+              {pathname.split("/")[2] ===
+                "tracks" /*  || pathname.split("/")[1] === "playlist" */ && (
+                <CheckBox
+                  value={checkboxState}
+                  onChange={() => checkboxOnChange(song.id)}
+                  color="error"
+                />
+              )}
+              <Modal
+                open={open}
+                handleClose={hidePlaylistModal}
+                songID={song.uri}
+              />
+              <PlaylistShowBtn onClick={showPlaylistModal}>
+                <LibraryAddIcon />
+              </PlaylistShowBtn>
+              <FavoriteBtn favorite={favorite}>
+                {favorite ? (
+                  <FavoriteIcon onClick={removeFavorite} />
+                ) : (
+                  <FavoriteBorderIcon />
+                )}
+              </FavoriteBtn>
+              {/*-----------------------------PATHNAME = PLAYLIST-------------------------------*/}
+              {pathname.split("/")[1] === "playlist" && !recommended && (
+                <RemoveBtn onClick={handleRemoveFromPlaylist} size="small">
+                  <ClearIcon />
+                </RemoveBtn>
+              )}
+            </Toolbar>
+            <span style={{ display: "grid", placeContent: "center" }}>
+              {getItemDuration(song["duration_ms"])}
+            </span>
+          </>
+        )}
+      </Container>
   );
 }
 

@@ -8,6 +8,7 @@ import {
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { spotifyAPI } from "../spotify";
+import {filterAlbums, deleteDuplicates} from '../utils/ApiData';
 import SearchResult from "./SearchResult";
 import TopHeader from "./TopHeader";
 import AlbumSection from "./AlbumSection";
@@ -46,6 +47,9 @@ function Discography() {
               unique.push(e);
             }
           });
+
+          deleteDuplicates(items);
+
           setArtistAlbums(unique)
          /*  setArtistAlbums(
             items.filter((e) => e["available_markets"].includes("PL")) 

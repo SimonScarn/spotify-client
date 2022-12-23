@@ -37,11 +37,12 @@ const Toolbar = styled.div`
 `;
 
 const ItemsList = styled.div`
-  padding: 0 20px 80px 20px;
+  padding-bottom: 80px;
 `;
 
 const AlbumContainer = styled.div`
   margin-bottom: 1rem;
+
 `;
 
 const AlbumHeader = styled.div`
@@ -50,8 +51,10 @@ const AlbumHeader = styled.div`
     "a b b b b b b b b b b b b b b b b"
     "c c c c c c c c c c c c c c c c c";
   padding: 20px 40px;
-  border-bottom: 2px solid black;
-  background-color: rgb(83, 82, 79);
+  margin-bottom: 10px;
+  border-bottom: 1px solid grey;
+  -webkit-gradient(linear,left top,left bottom,from(#181818),to(#121212));
+   background: linear-gradient(#181818,#121212);
 `;
 
 const AlbumDetails = styled.div`
@@ -76,7 +79,7 @@ const AlbumCover = styled.div`
 
   img {
     display: block;
-    height: 250px;
+    height: 130px;
     object-fit: contain;
   }
 `;

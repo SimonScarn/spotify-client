@@ -27,13 +27,14 @@ const Header = styled.div`
 
 const Details = styled.div`
   display: flex;
-  gap: 20px;
+  flex-direction: column;
+  gap: 8px;
 `;
 
 const Name = styled.h2`
   padding: 0;
   margin: 0;
-  font-size: 5em;
+  font-size: 40px;
 `;
 
 

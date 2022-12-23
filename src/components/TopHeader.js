@@ -22,7 +22,6 @@ function TopHeader({ query, changeQuery, color }) {
   const [prevPath, setPrevPath] = useState(null);
 
   useEffect(() => {
-    console.log(state)
     if (state?.prevPath) {
       setPrevPath(state.prevPath);
     }
@@ -37,7 +36,7 @@ function TopHeader({ query, changeQuery, color }) {
   }
 
   function toggleNavDropdown() {
-    console.log('HEMPAJER')
+    console.log('ssssss')
   }
 
   return (

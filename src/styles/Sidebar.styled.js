@@ -20,11 +20,11 @@ const OptionContainer = styled.div`
   display: flex;
   align-items: center;
   padding-left: 20px;
-  transition: 0.2s color ease-in;
+  transition: all 0.2s ease-in;
 
   &:hover {
     cursor: pointer;
-    transform: scale(1.04);
+    transform: scale(1.05);
   }
 
   & > p {

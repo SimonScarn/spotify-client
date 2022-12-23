@@ -6,17 +6,21 @@ export default function FooterPlayer() {
   const { userInfo, dispatch } = useContext(GlobalContext);
   const playerRef = useRef();
 
-  
+
+ /*  useEffect(() => {
+    console.log('karent plejin ', userInfo.currentTrack, userInfo.accessToken)
+  }, [userInfo.currentTrack])
+   */
   return (
     <SpotifyPlayer
       ref={playerRef}
       token={userInfo.accessToken}
-      uris={userInfo.currentPlayingItem}
-      play={userInfo.isPlaying}
-      updateSavedStatus={() =>{
+      uris={userInfo.currentTrack}
+      play={false}
+    /*   updateSavedStatus={() =>{
         dispatch({type: 'SET_PLAYING_STATE', payload: !userInfo.isPlaying})
-      }}
-      showSaveIcon
+      }} */
+     /*  showSaveIcon */
       styles={{
         activeColor: "blue",
         bgColor: "#333",

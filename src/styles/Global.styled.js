@@ -33,26 +33,48 @@ const Section = styled.div`
 `;
 
 const Row = styled.div`
-  display: grid;
+  display: grid; 
   justify-content: left;
   gap: 10px;
   grid-auto-flow: column;
   grid-row: 1;
   grid-template-rows: ${(props) => props.double && "1fr 1fr"};
+  position: relative;
   height: 250px;
   padding-bottom: 30px;
   padding-right: 10px;
-  overflow-y: hidden;
-  overflow-x: scroll;
+
+  > div {
+    display: grid !important;
+    grid-auto-flow: column;
+  grid-row: 1;
+    gap: 10px;
+    grid-template-rows: ${(props) => props.double && "1fr 1fr"};
+  }
+
+
+ /*  &::before {
+    content: '';
+  position: fixed;
+  z-index: 100;
+
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  background: pink;
+    border-radius: 50px;
+  } */
 `;
 
 const Grid = styled.div`
-  display: grid;
- /*  place-content: center; */
-  grid-template-columns: repeat(auto-fill, 190px);
-  gap: 10px;
-  padding: 20px 10px; 
-
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+ /*  place-content: center; 
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 20px;
+  padding: 20px;  */
 `;
 
 const Toolbar = styled.div`
@@ -64,6 +86,16 @@ const Toolbar = styled.div`
   margin-top: ${props => props.translate && '60px'};
   border-top: ${props => props.translate && '1px solid whitesmoke'};
 `;
+
+const ImageThumbnail = styled.div`
+  height: 20px;
+  width: 20px;
+
+  img {
+    height: 100%;
+    object-fit: contain;
+  }
+`
 
 const ArtistsContainer = styled.div`
   max-height: 30px;
@@ -127,11 +159,36 @@ const PlayBtn = styled(IconButton)`
     transition: all 0.3s ease-in-out;
 
     &:hover {
-      color: black;
+      transform: scale(1.2);
       background-color: ${(props) => props.theme.colors.colorSecondary};
     }
   }
 `;
+
+const AddLibraryBtn = styled(IconButton)`
+  && {
+    visibility: hidden;
+    gap: 15px;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #000;
+    background-color: whitesmoke;
+    opacity: 1;
+    cursor: default;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      outline: 8px solid #000;
+      outline-offset: -8px;
+      background: whitesmoke;
+    }
+  }
+`;
+
 
 const FollowBtn = styled(Button)`
   && {
@@ -164,12 +221,14 @@ export {
   Row,
   Grid,
   Toolbar,
+  ImageThumbnail,
   ArtistsContainer,
   PlayerContainer,
   AppContainer,
   HeaderTitle,
   ColorLink,
   PlayBtn,
+  AddLibraryBtn,
   FollowBtn,
   PlaylistShowBtn,
   FavoriteBtn,

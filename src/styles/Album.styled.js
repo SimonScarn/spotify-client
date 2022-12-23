@@ -29,7 +29,6 @@ const Header = styled.div`
   z-index: 1;
   height: 40vh;
   padding: 20px 40px;
-  border-bottom: 1px solid whitesmoke;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   background-image: linear-gradient(rgb(197, 165, 66), rgb(225, 194, 92));
@@ -58,9 +57,10 @@ const Header = styled.div`
 const AlbumDetails = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
   margin-top: 110px !important;
-  color: black;
+  color: #fff;
+  
 
   div {
     display: flex;

@@ -15,9 +15,9 @@ const Container = styled.div`
   padding: 10px 20px;
   padding-bottom: 0.5em;
   /* background-color: ${color => color} !important; */
-  background-image: linear-gradient(rgb(197, 165, 66), rgb(225, 194, 92));
+/*   background-image: linear-gradient(rgb(197, 165, 66), rgb(225, 194, 92)); */
 
-/*   background-image: ${props => !props.color && "linear-gradient(315deg, #6b0f1a 0%, #b91372 74%)"}; */
+  background-image: ${props => !props.color && "linear-gradient(315deg, #6b0f1a 0%, #b91372 74%)"};
   
 `;
 
@@ -45,34 +45,35 @@ const UserInfo = styled.div`
   margin-right: 1.5rem;
   padding: 5px;
   color: whitesmoke;
-  border-radius: 25px;
   transition: all 0.3s ease-in-out;
-  outline: 2px solid ${(props) => props.theme.colors.colorSecondary};
-
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
 
   &:hover {
     cursor: pointer;
-    outline: 2px solid ${(props) => props.theme.colors.colorSecondary};
     color: white;
     transition: all 0.3s ease-in-out;
+    color: #000;
+    background: whitesmoke;
+    outline: 1px solid lightgrey;
+    outline-offset: -2px;
   }
 
   &::after {
     content: "";
     position: absolute;
     left: 0;
-    top: 50px;
+    bottom: 2px;
     width: 100%;
     height: 1px;
-    background: red;
     border-radius: 5px;
+    transition: all .3s ease-in-out;
   }
 
   &:hover::after {
     transform: scaleY(200);
-    background: gold;
-    
-
+    transform-origin: top;
+    background: whitesmoke;
   }
 `;
 

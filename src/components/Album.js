@@ -1,4 +1,4 @@
-import { Wrapper, Toolbar } from "../styles/Global.styled.js";
+import { Wrapper, Toolbar, Row } from "../styles/Global.styled.js";
 import {
   Image,
   Header,
@@ -25,6 +25,7 @@ import TimerIcon from "@mui/icons-material/Timer";
 import PauseIcon from "@mui/icons-material/Pause";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import Loader from "./Loader.js";
+import SearchResult from "./SearchResult.js";
 
 function Album() {
   const location = useLocation();
@@ -33,7 +34,17 @@ function Album() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [albumDuration, setAlbumDuration] = useState(0);
   const [favorite, setFavorite] = useState(false);
+  const [featuredAlbums, setFeaturedAlbums] = useState([]);
 
+  async function getFeaturedAlbums(artists) {
+    let albums = [];
+    for (let i = 0; i < artists.length; i++) {
+      let {items} = await spotifyAPI.getArtistAlbums(artists[i].id, { limit: 50 });
+      albums = [...albums, { 'artist': artists[i].name, 'albums': items.filter(e => e.album_group === "album")}];
+    }
+
+    return albums;
+  }
   useEffect(() => {
     const albumID = location.pathname.split("/")[2];
     spotifyAPI
@@ -48,6 +59,14 @@ function Album() {
       .then((data) => setFavorite(data[0]))
       .catch((err) => console.error(err));
   }, [location]);
+
+  useEffect(() => {
+    if (!album) return;
+
+    getFeaturedAlbums(album.artists).then((data) => {
+      setFeaturedAlbums(data)
+    });
+  }, [album]);
 
   function addFavorite() {
     spotifyAPI
@@ -79,7 +98,7 @@ function Album() {
 
   return (
     <Wrapper>
-      <TopHeader color={"red"}/>
+      <TopHeader color={"red"} />
       {!album ? (
         <Loader />
       ) : (
@@ -143,6 +162,17 @@ function Album() {
             })}
           </TracksContainer>
           <Label>{album?.label}</Label>
+          <hr />
+          {featuredAlbums.map(e => {
+            return <>
+              <h4>{e.artist}</h4>
+              <Row>
+                {e.albums.map(album => {
+                  return <SearchResult key={album.id} item={album}/>
+                })}
+              </Row>
+            </>
+          })}
         </>
       )}
     </Wrapper>
