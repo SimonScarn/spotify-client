@@ -27,6 +27,12 @@ const Container = styled.div`
   border-radius: 5px;
   pointer-events: ${(props) => props.events ? 'all' : 'none'};
 
+  > div {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
 /*   &:hover ${ItemToolbar} {
     visibility: visible;
     transform: scale(4);
@@ -79,13 +85,12 @@ const Container = styled.div`
   }
 
   h2 {
-    font-style: italic;
-    font-weight: 900;
-    font-size: 18px;
+    font-weight: 600;
+    font-size: 16px;
   }
   h3 {
     font-weight: lighter;
-    font-size: 16px;
+    font-size: 14px;
   }
 `;
 

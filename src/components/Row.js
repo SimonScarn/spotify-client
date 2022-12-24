@@ -13,7 +13,7 @@ function RowItems({items, view, double}) {
 
     useEffect(() => {
       setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth);
-    }, [])
+    }, [pointerEvent])
 
 
   return (
