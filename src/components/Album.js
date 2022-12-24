@@ -1,4 +1,4 @@
-import { Wrapper, Toolbar, Row } from "../styles/Global.styled.js";
+import { Wrapper, Toolbar } from "../styles/Global.styled.js";
 import {
   Image,
   Header,
@@ -15,6 +15,7 @@ import { GlobalContext } from "../GlobalContext";
 import { spotifyAPI } from "../spotify";
 import { getAlbumDuration, getReleaseDate } from "../utils/ApiData";
 import AlbumRow from "./AlbumRow";
+import Row from "./Row";
 import TopHeader from "./TopHeader";
 import PlayCircleFilledIcon from "@mui/icons-material/PlayCircleFilled";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -166,11 +167,7 @@ function Album() {
           {featuredAlbums.map(e => {
             return <>
               <h4>{e.artist}</h4>
-              <Row>
-                {e.albums.map(album => {
-                  return <SearchResult key={album.id} item={album}/>
-                })}
-              </Row>
+              <Row items={e.albums} />
             </>
           })}
         </>

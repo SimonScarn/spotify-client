@@ -10,6 +10,7 @@ import {
 import { useContext, useState, useEffect } from "react";
 import { GlobalContext } from "../GlobalContext";
 import SidebarOption from "./SidebarOption";
+import NewPlaylistModal from "./NewPlaylistModal";
 import Home from "@mui/icons-material/Home";
 import Search from "@mui/icons-material/Search";
 import LibraryMusic from "@mui/icons-material/LibraryMusic";
@@ -28,6 +29,8 @@ export default function Sidebar() {
   const [query, setQuery] = useState("");
   const [searchedPlaylists, setSearchedPlaylists] = useState([]);
   const [playlists, setPlaylists] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+
 
   useEffect(() => {
     setPlaylists([userInfo.playlists][0]);
@@ -46,6 +49,13 @@ export default function Sidebar() {
     }
   }, [query]);
 
+  function showPlaylistModal() {
+    setOpenModal(true);
+  }
+
+  function hidePlaylistModal() {
+    setOpenModal(false);
+  }
 
   function addSong(e) {
     e.preventDefault();
@@ -75,9 +85,10 @@ export default function Sidebar() {
         <SidebarOption title="Library" Icon={LibraryMusic} />
       </SidebarLink>
       <br />
-      <SidebarLink to="/404" style={{ pointerEvents: "none" }}>
+      <NewPlaylistModal open={openModal} handleClose={hidePlaylistModal} />
+      <div onClick={showPlaylistModal}>
         <SidebarOption title="Create new playlist" Icon={AddBox} />
-      </SidebarLink>
+      </div>
       <SidebarLink to="/collection/tracks">
         <SidebarOption title="Liked songs" Icon={Favorite} />
       </SidebarLink>

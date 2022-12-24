@@ -1,6 +1,5 @@
 import {
   Wrapper,
-  Row,
   Toolbar,
   FollowBtn,
   PlayBtn,
@@ -11,6 +10,7 @@ import { useLocation, Link } from "react-router-dom";
 import { spotifyAPI } from "../spotify";
 import TopHeader from "./TopHeader";
 import AlbumRow from "./AlbumRow";
+import Row from "./Row";
 import SearchResult from "./SearchResult";
 import Loader from "./Loader.js";
 import { IconButton } from "@mui/material";
@@ -140,13 +140,8 @@ function Artist() {
                     Show all
                   </Link>
                 </Section>
-                <Row>
-                  {artistAlbums?.map((item) => {
-                    return (
-                      <SearchResult key={item.id} item={item} view="artist" />
-                    );
-                  })}
-                </Row>
+                <Row items={artistAlbums} view="artist" />
+                
               </>
             )}
             {related?.artists?.length > 0 && (
@@ -157,12 +152,7 @@ function Artist() {
                     Show all
                   </Link>
                 </Section>
-
-                <Row>
-                  {related.artists.map((item) => {
-                    return <SearchResult key={item.id} item={item} />;
-                  })}
-                </Row>
+                <Row items={related.artists} />
               </>
             )}
           </Body>
