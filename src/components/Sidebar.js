@@ -47,7 +47,7 @@ export default function Sidebar() {
         );
       setSearchedPlaylists(items);
     }
-  }, [query]);
+  }, [query, userInfo.playlists.length]);
 
   function showPlaylistModal() {
     setOpenModal(true);

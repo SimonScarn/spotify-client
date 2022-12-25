@@ -7,7 +7,7 @@ const Container = styled.div`
   position: relative;
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
-  align-items: center;
+  align-content: center;
   position: relative;
   z-index: 1;
   width: 350px;
