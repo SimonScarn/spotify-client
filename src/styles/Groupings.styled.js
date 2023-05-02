@@ -20,11 +20,15 @@ const Content = styled.div`
  */
 `;
 const Group = styled.div`
-  border: 1px solid red;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   width: 600px;
+
+  img {
+    height: 50px;
+    width: 40px;
+  }
 `;
 
 export { Header, Content, Group };

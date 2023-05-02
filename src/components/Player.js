@@ -13,52 +13,43 @@ import Groupings from "./Groupings";
 import Library from "./Library";
 import { Routes, Route, HashRouter, useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
-import axios from "axios";
-import { GlobalContext } from "./../GlobalContext";
 import { getUrlToken, spotifyAPI } from "./../spotify";
 import { getUserPlaylists } from "./../utils/ApiCalls";
-import useAuth from "../hooks/useAuth";
-import { apiRequest } from "./../requests";
 
 export default function Player({ code }) {
   const navigate = useNavigate();
 /*   const accessToken = useAuth(code); */
 const [accessToken, setAccessToken] = useState(null);
-  const { userInfo, dispatch } = useContext(GlobalContext);
 
   useEffect(() => {
     if (!accessToken) return;
     spotifyAPI.setAccessToken(accessToken);
-    dispatch({ type: "SET_ACCESS_TOKEN", payload: accessToken });
+    //dispatch({ type: "SET_ACCESS_TOKEN", payload: accessToken });
   }, [accessToken]);
 
   useEffect(() => {
     if (!accessToken) return;
     spotifyAPI.getMe().then((data) => {
-      dispatch({ type: "SET_USER", payload: data });
+      // dispatch({ type: "SET_USER", payload: data });
     });
     getUserPlaylists().then((data) => {
-      dispatch({ type: "SET_USER_PLAYLISTS", payload: data });
+      // dispatch({ type: "SET_USER_PLAYLISTS", payload: data });
     });
   }, [accessToken]);
-
+/* 
   useEffect(() => {
     if (userInfo.playlists.total > 0) {
       navigate("/");
     }
   }, [userInfo.playlists]);
 
-/*   useEffect(() => {
-    if (code !== "custom") {
-      apiRequest.put("/status");
-    }
-  }, []); */
 
+ */
   useEffect(() => {
     setAccessToken(code)
   }, [code])
 
-  if (userInfo.playlists.length == 0) return <Loader full />;
+  // if (userInfo.playlists.length == 0) return <Loader full />;
 
   return (
     <PlayerContainer>

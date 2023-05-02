@@ -13,14 +13,29 @@ import useDebounce from "../hooks/useDebounce";
 import { GlobalContext } from "./../GlobalContext";
 import { getTracks } from "../utils/ApiCalls";
 import { getArtists } from "../utils/ApiData.js";
-import { Modal as MUIModal, IconButton, Tooltip, Button } from "@mui/material";
+import { Modal as MUIModal, IconButton, Tooltip, Button, Snackbar, Alert, Slide } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { spotifyAPI } from "../spotify.js";
+import {addToPlaylist} from "../utils/playlist";
+import { snackbarMessageSchema } from "../utils/schemas.js";
+
 
 function Modal({ open, handleClose }) {
-  const { userInfo } = useContext(GlobalContext);
+  const [title, setTitle] = useState('');
   const [query, setQuery] = useState("");
   const [tracks, setTracks] = useState([]);
+  const [isAdded, setIsAdded] = useState(false);
+  const [created, setCreated] = useState(false);
+  const [snackbarVisibility, setSnackbarVisibility] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState(
+    snackbarMessageSchema["add"]
+  );
+
+
+  function closeSnackbar() {
+    setSnackbarVisibility(false);
+  }
+
 
   function fetchTracks() {
     if (query === "") {
@@ -31,8 +46,17 @@ function Modal({ open, handleClose }) {
   }
 
   function createPlaylist() {
-    console.log(userInfo.user.id)
-    spotifyAPI.createPlaylist(userInfo.user.id, {name: 'TESTT'});
+    // spotifyAPI.createPlaylist(userInfo.user.id, {name: title})
+    //   .then(() => setCreated(true))
+    //   .then(() => {
+    //     setSnackbarMessage(snackbarMessageSchema["created"]);
+    //     setSnackbarVisibility(true);
+    //     setTitle('');
+    //   })
+  }
+  
+  function handleAddToPlaylist(id) {
+    // addToPlaylist(userInfo.playlists[0].id, [id], setIsAdded);
   }
 
   useDebounce(
@@ -45,20 +69,54 @@ function Modal({ open, handleClose }) {
     [query]
   );
 
+  useEffect(() => {
+    console.log('creeated', created)
+  }, [created])
+
+  useEffect(() => {
+    console.log('qqq', title);
+  }, [title])
 
   if (!open) return null;
   return ReactDom.createPortal(
     <>
+        {snackbarVisibility && (
+        <Snackbar
+          open={snackbarVisibility}
+          autoHideDuration={4000}
+          onClose={closeSnackbar}
+          anchorOrigin={{ horizontal: "bottom", vertical: "center" }}
+          style={{ bottom: "80px", left: "2%" }}
+        >
+          <Alert
+            onClose={closeSnackbar}
+            severity="info"
+            sx={{ width: "30%" }}
+            style={{ borderRadius: "10px", display: "flex" }}
+          >
+            <div style={{ textAlign: "center", width: "25vw" }}>
+              <span>
+          {/*       <b>{item.name}</b>  */} {snackbarMessage}
+              </span>
+            </div>
+          </Alert>
+        </Snackbar>
+      )}
       <MUIModal open={open} onClose={handleClose}>
         <Container>
           <Header>
             <img alt="playlist cover" />
-            <InputTitle placeholder="Playlist title" />
+            <InputTitle 
+            placeholder="Playlist title"
+            value={title}
+            onChange={e => setTitle(e.target.value)} />
+          {created &&
           <InputSearch
             placeholder="Search for a track..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
+          }
           <Controls>
             <Button onClick={createPlaylist} color="success" variant="contained">Create</Button>
           </Controls>
@@ -79,7 +137,7 @@ function Modal({ open, handleClose }) {
                   <div>{getArtists(track.artists)}</div>
                   <div>
                     <IconButton>
-                      <AddCircleOutlineIcon color="success" />
+                      <AddCircleOutlineIcon onClick={() => handleAddToPlaylist(track.uri)} color="success" />
                     </IconButton>
                   </div>
                 </Track>

@@ -1,18 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import GlobalContextProvider from './GlobalContext';
+import store from './app/store'
+import { Provider } from 'react-redux'
 
 
-ReactDOM.render(
-  <React.StrictMode>
-    <GlobalContextProvider>
-      <App />
-    </GlobalContextProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
-);
-
-
-
-
+const root = ReactDOM.createRoot(document.getElementById('root'))
+root.render(
+  <Provider store={store}>
+    <App />
+  </Provider>
+)

@@ -7,8 +7,7 @@ import {
   PlaylistContainer,
   PlaylistItem,
 } from "../styles/Sidebar.styled.js";
-import { useContext, useState, useEffect } from "react";
-import { GlobalContext } from "../GlobalContext";
+import { useState, useEffect } from "react";
 import SidebarOption from "./SidebarOption";
 import NewPlaylistModal from "./NewPlaylistModal";
 import Home from "@mui/icons-material/Home";
@@ -23,31 +22,42 @@ import CachedIcon from "@mui/icons-material/Cached";
 import WorkspacesIcon from '@mui/icons-material/Workspaces';
 import { IconButton, Tooltip } from "@mui/material";
 import { getUserPlaylists } from "../utils/ApiCalls.js";
+import { spotifyAPI } from "../spotify.js";
 
 export default function Sidebar() {
-  const { userInfo, dispatch } = useContext(GlobalContext);
   const [query, setQuery] = useState("");
   const [searchedPlaylists, setSearchedPlaylists] = useState([]);
   const [playlists, setPlaylists] = useState([]);
   const [openModal, setOpenModal] = useState(false);
 
 
-  useEffect(() => {
-    setPlaylists([userInfo.playlists][0]);
-    setSearchedPlaylists([userInfo.playlists][0]);
-  }, [userInfo.playlists]);
+  // useEffect(() => {
+  //   setPlaylists([userInfo.playlists][0]);
+  //   setSearchedPlaylists([userInfo.playlists][0]);
+  // }, [userInfo.playlists, spotifyAPI]);
 
-  useEffect(() => {
-    if (query === "") {
-      setSearchedPlaylists([userInfo.playlists][0]);
-    } else {
-      const items = [userInfo.playlists][0].filter((e) =>
-        e.name.toLowerCase().includes(query)
+  // useEffect(() => {
+  //   if (query === "") {
+  //     setSearchedPlaylists([userInfo.playlists][0]);
+  //   } else {
+  //     const items = [userInfo.playlists][0].filter((e) =>
+  //       e.name.toLowerCase().includes(query)
       
-        );
-      setSearchedPlaylists(items);
-    }
-  }, [query, userInfo.playlists.length]);
+  //       );
+  //     setSearchedPlaylists(items);
+  //   }
+  // }, [query, userInfo.playlists.length]);
+
+
+  //get playlists
+  useEffect(() => {
+    const interval = setInterval(() => {
+      getUserPlaylists().then((data) => {
+        // dispatch({ type: "SET_USER_PLAYLISTS", payload: data });
+      });
+    }, 10000);
+    return () => clearInterval(interval);
+  }, []);
 
   function showPlaylistModal() {
     setOpenModal(true);
@@ -64,13 +74,15 @@ export default function Sidebar() {
 
   function togglePlaylist(e, id) {
     e.preventDefault();
-    dispatch({ type: "SET_PLAYER_TRACK", payload: [`spotify:playlist:${id}`] });
+    // dispatch({ type: "SET_PLAYER_TRACK", payload: [`spotify:playlist:${id}`] });
   }
 
   function refetchPlaylists() {
     setSearchedPlaylists(playlists);
     setQuery("");
   }
+
+
 
   return (
     <Container>

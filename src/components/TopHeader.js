@@ -7,7 +7,6 @@ import {
 } from "../styles/TopHeader.styled";
 import { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { GlobalContext } from "../GlobalContext";
 import { Avatar } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -18,7 +17,6 @@ import defaultImgSrc from "../assets/defaultimgsrc.png";
 function TopHeader({ query, changeQuery, color }) {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { userInfo, dispatch } = useContext(GlobalContext);
   const [prevPath, setPrevPath] = useState(null);
 
   useEffect(() => {
@@ -36,7 +34,6 @@ function TopHeader({ query, changeQuery, color }) {
   }
 
   function toggleNavDropdown() {
-    console.log('ssssss')
   }
 
   return (
@@ -65,13 +62,13 @@ function TopHeader({ query, changeQuery, color }) {
         </div>
       )}
 
-      <UserInfo>
+      {/* <UserInfo>
         <Avatar alt="user avatar" src={userInfo?.user?.images[0]?.url ? userInfo.user.images[0].url : defaultImgSrc}>
           {userInfo?.user?.["display_name"][0]}
         </Avatar>
-        <h4>{userInfo?.user?.["display_name"]}</h4>
+        <h4>{userInfo?.user?.["display_name"]}</h4> 
         <ArrowDropDownIcon onClick={toggleNavDropdown}/>
-      </UserInfo>
+      </UserInfo> */}
     </Container>
   );
 }

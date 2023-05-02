@@ -70,7 +70,6 @@ const Details = styled.div`
 
   h2 {
     font-size: 18px;
-    font-style: italic;
   }
 `;
 

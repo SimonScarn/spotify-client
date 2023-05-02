@@ -18,9 +18,9 @@ const Container = styled.div`
   flex: 1 1 150px;
   position: relative;
   z-index: 1;
-  height: 200px;
-  width: 150px;
-  max-width: 150px;
+  height: ${(props) => props.size ? `${props.size}px` : '200px'};;
+  width: ${(props) => props.size ? `${props.size}px` : '150px'};;
+  max-width: ${(props) => props.size ? `${props.size}px` : '150px'};;
   padding: 20px;
   cursor: pointer;
   object-fit: contain;
@@ -98,7 +98,7 @@ const ImageContainer = styled.div`
   position: relative;
 
   img {
-    height: 150px;
+    height: ${(props) => props.size ? '150px' : '150px'};;
     width: 100%;
     object-fit: ${(props) => (props.cover ? "cover" : "contain")};
     margin: 0;

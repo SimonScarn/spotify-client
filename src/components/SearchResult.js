@@ -8,7 +8,6 @@ import {
 } from "../styles/SearchResult.styled.js";
 import { useEffect, useContext, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { GlobalContext } from "../GlobalContext";
 import { spotifyAPI } from "../spotify";
 import { getArtists, getDescription, getReleaseDate } from "../utils/ApiData";
 import PlayCircleIcon from "@mui/icons-material/PlayArrow";
@@ -16,14 +15,10 @@ import AddIcon from '@mui/icons-material/Add';
 import ClearIcon from "@mui/icons-material/Clear";
 import defaultImgSrc from "../assets/defaultimgsrc.png";
 
-function SearchResult({ item, view, events }) {
+function SearchResult({ item, view, events, size }) {
   const [remove, setRemove] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isDragging, setIsDragging] = useState(false);
-  const {
-    userInfo: { savedAlbums },
-    dispatch,
-  } = useContext(GlobalContext);
   const navigate = useNavigate();
   const prevPath = useLocation().pathname;
   const { pathname } = useLocation();
@@ -99,7 +94,7 @@ function SearchResult({ item, view, events }) {
   function playItem(e) {
     e.preventDefault();
     e.stopPropagation();
-    dispatch({ type: "SET_CURRENT_TRACK", payload: [item.uri] });
+    // dispatch({ type: "SET_CURRENT_TRACK", payload: [item.uri] });
   }
 
   function deleteItem(e, id, view) {

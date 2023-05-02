@@ -6,29 +6,27 @@ import {
 } from "../styles/Modal.styled.js";
 import ReactDom from "react-dom";
 import { useState, useEffect, useContext } from "react";
-import { GlobalContext } from "../GlobalContext";
 import { Modal as MUIModal } from "@mui/material";
 import ListItem from "./ListItem";
 
 function Modal({ open, handleClose, songID }) {
-  const { userInfo, dispatch } = useContext(GlobalContext);
   const [query, setQuery] = useState("");
   const [searchedPlaylists, setSearchedPlaylists] = useState([]);
 
-  useEffect(() => {
-    setSearchedPlaylists(sortPlaylists([...userInfo.playlists]));
-  }, []);
+  // useEffect(() => {
+  //   setSearchedPlaylists(sortPlaylists([...userInfo.playlists]));
+  // }, []);
 
-  useEffect(() => {
-    if (query === "") {
-      setSearchedPlaylists(sortPlaylists([...userInfo.playlists]));
-    } else {
-      const items = [...userInfo.playlists].filter((e) =>
-        e.name.toLowerCase().includes(query)
-      );
-      setSearchedPlaylists(items);
-    }
-  }, [query]);
+  // useEffect(() => {
+  //   if (query === "") {
+  //     setSearchedPlaylists(sortPlaylists([...userInfo.playlists]));
+  //   } else {
+  //     const items = [...userInfo.playlists].filter((e) =>
+  //       e.name.toLowerCase().includes(query)
+  //     );
+  //     setSearchedPlaylists(items);
+  //   }
+  // }, [query]);
 
   function sortPlaylists(playlists) {
     return playlists.sort((a, b) =>

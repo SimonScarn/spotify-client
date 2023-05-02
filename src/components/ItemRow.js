@@ -5,8 +5,6 @@ import {
   ItemLink,
   Details,
 } from "../styles/ItemRow.styled.js";
-import { useContext } from "react";
-import { GlobalContext } from "../GlobalContext.js";
 import { getArtists } from "../utils/ApiData";
 import { Tooltip } from "@mui/material";
 import PlayCircleIcon from "@mui/icons-material/PlayArrow";
@@ -16,15 +14,13 @@ import { useNavigate } from "react-router-dom";
 
 function Item({ item, events }) {
   const navigate = useNavigate();
-  const { dispatch } = useContext(GlobalContext);
 
   const [isLoading, setIsLoading] = useState(true);
 
   function playItem(e) {
     e.preventDefault();
     e.stopPropagation();
-    console.log(item);
-    dispatch({ type: "SET_CURRENT_TRACK", payload: item.uri });
+    // dispatch({ type: "SET_CURRENT_TRACK", payload: item.uri });
   }
 
   const openItem = (e, item) => {

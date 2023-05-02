@@ -1,10 +1,7 @@
 import { Wrapper, Section, ContentGrid } from "../styles/Global.styled.js";
 import { useState, useEffect, useContext } from "react";
 import { spotifyAPI } from "../spotify";
-import { GlobalContext } from "../GlobalContext";
-import SearchResult from "./SearchResult";
 import TopHeader from "./TopHeader";
-import ItemRow from "./ItemRow";
 import Row from "./Row";
 import Loader from "./Loader.js";
 
@@ -15,7 +12,6 @@ function Home() {
   const [newReleases, setNewReleases] = useState({ albums: [], singles: [] });
   const [featuredPlaylists, setFeaturedPlaylists] = useState([]);
 
-  const { userInfo, dispatch } = useContext(GlobalContext);
 
   useEffect(() => {
     spotifyAPI
@@ -56,7 +52,7 @@ function Home() {
     spotifyAPI.getFeaturedPlaylists().then((data) => {
       setFeaturedPlaylists(data.playlists.items);
     });
-  }, [userInfo.token]);
+  }, [/* userInfo.token */]);
 
   function removeDuplicates(data) {
     const items = data.items.map((e) => e.track);

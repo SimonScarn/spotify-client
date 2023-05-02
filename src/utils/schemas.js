@@ -1,7 +1,8 @@
 
 const snackbarMessageSchema = {
     'add': 'added to',
-    'remove': 'removed from'
+    'remove': 'removed from',
+    'created': 'playlist was created'
   }
 
 

@@ -11,13 +11,15 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     height: 70vh;
-    padding: 70px 100px;
+    padding: 60px 80px;
     background: white;
     border-radius: 20px;
     background: ${(props) => props.theme.colors.bgHeader};
     box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
       rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+    scale: .6;
   }
 
   h2 {
@@ -26,7 +28,7 @@ const Container = styled.div`
 `;
 
 const Image = styled.img`
-  height: 200px;
+  height: 150px;
   object-fit: contain;
   margin-bottom: 30px;
   padding: 5px;
@@ -67,7 +69,7 @@ const LoginBtn = styled(Button)`
 const CodeBtn = styled(Button)`
   && {
     ${BtnStyles}
-    margin-top: 50px;
+    margin-top: 20px;
     background: ${(props) => props.theme.colors.colorSecondary};
   }
 `;

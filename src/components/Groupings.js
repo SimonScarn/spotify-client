@@ -23,17 +23,10 @@ export default function Groupings() {
     return newArr;
   }
 
-
-/*   useEffect(() => {
-    console.log(groups)
-  }, [groups]) */
-
   return (
     <Wrapper>
       <Header>
-        <h1>
-          Create your own taste <strong>(grid playground)</strong>
-        </h1>
+       
       </Header>
 
       <Content>
